@@ -1,98 +1,129 @@
+import itertools
 import math
-
 import numpy as np
 
+def bubble_max_row(m, col):
+    max_element = m[col][col]
+    max_row = col
+    for i in range(col + 1, len(m)):
+        if abs(m[i][col]) > abs(max_element):
+            max_element = m[i][col]
+            max_row = i
+    if max_row != col:
+        temp_row = m[col].copy()
+        m[col] = m[max_row]
+        m[max_row] = temp_row
 
-def gauss(m):
-    # eliminate columns
-    for col in range(len(m[0])):
-        for row in range(col + 1, len(m)):
-            r = [(rowValue * (-(m[row][col] / m[col][col]))) for rowValue in m[col]]
-            m[row] = [sum(pair) for pair in zip(m[row], r)]
-    # now backsolve by substitution
-    ans = []
-    m.reverse()  # makes it easier to backsolve
-    for sol in range(len(m)):
-        if sol == 0:
-            ans.append(m[sol][-1] / m[sol][-2])
-        else:
-            inner = 0
-            # substitute in all known coefficients
-            for x in range(sol):
-                inner += (ans[x] * m[sol][-2 - x])
-            # the equation is now reduced to ax + b = c form
-            # solve with (c - b) / a
-            ans.append((m[sol][-1] - inner) / m[sol][-sol - 2])
-    ans.reverse()
-    return ans
+def solve_gauss(m):
+    n = len(m)
+
+    for k in range(n - 1):
+        bubble_max_row(m, k)
+        for i in range(k + 1, n):
+            div = m[i][k] / m[k][k]
+            m[i][-1] -= div * m[k][-1]
+            for j in range(k, n):
+                m[i][j] -= div * m[k][j]
+
+    if is_singular(m):
+        return
+
+    x = [0 for i in range(n)]
+    for k in range(n - 1, -1, -1):
+        x[k] = (m[k][-1] - sum([m[k][j] * x[j] for j in range(k + 1, n)])) / m[k][k]
+
+    return x
 
 
-def brut(matrixEquality, matrixLess, matrixMore, xLimits, targetFunc, isMin):
-    A = matrixEquality + matrixLess + matrixMore
-    if isMin:
-        answerResult = math.inf
-    else:
-        answerResult = -math.inf
-    answerVector = []
+def is_singular(m):
+    for i in range(len(m)):
+        if not m[i][i]:
+            return True
+    return False
 
-    for i in range (0, len(A)):
-        B = []
-        for j in range (0, len(A)):
-            if i != j:
-                B.append(A[j])
-        for i in range (0, len(B)):
-            if B[i][i] == 0.0:
-                for j in range(0, len(B)):
-                    if B[j][i] != 0.0 and B[i][j] != 0.0:
-                        tempStroke = B[j]
-                        B[j] = B[i]
-                        B[i] = tempStroke
-        x = gauss(B)
-        limitsFlag = True
+def brute_force(matrix, function, basis, x_limits, matrix_equality, matrix_more, matrix_less):
+    n = len(x_limits)
+    answer_result = -math.inf
+    answer_vector = []
+    saved_column_indices = []
 
-        for i in range(0, len(xLimits)):
-            if xLimits[i] == 1:
-                if x[i] < 0:
-                    limitsFlag = False
-            elif xLimits == -1:
-                if x[i] > 0:
-                    limitsFlag = False
+    x_limits += [0] * (len(function) - len(x_limits))
 
-        for i in range(0, len(matrixEquality)):
-            tempResult = 0
-            for j in range(0, len(matrixEquality[i]) - 1):
-                tempResult += (matrixEquality[i][j] * x[j])
-            if (tempResult != matrixEquality[i][-1]):
-                limitsFlag = False
+    column_indices = []
+    for i in range(0, len(function)):
+        column_indices.append(i)
 
-        for i in range(0, len(matrixLess)):
-            tempResult = 0
-            for j in range(0, len(matrixLess[i]) - 1):
-                tempResult += (matrixLess[i][j] * x[j])
-            if (tempResult > matrixLess[i][-1]):
-                limitsFlag = False
+    comb_generator = itertools.combinations(column_indices, len(matrix))
 
-        for i in range(0, len(matrixMore)):
-            tempResult = 0
-            for j in range(0, len(matrixMore[i]) - 1):
-                tempResult += (matrixMore[i][j] * x[j])
-            if (tempResult < matrixMore[i][-1]):
-                limitsFlag = False
+    try:
+        while True:
+            used_columns = next(comb_generator)
+            sle = []
+            for i in range(0, len(matrix)):
+                row = []
+                for j in range(0, len(used_columns)):
+                    row.append(matrix[i][used_columns[j]])
+                sle.append(row)
+            dot = np.linalg.det(sle)
+            if dot != 0:
+                for i in range(0, len(sle)):
+                    sle[i].append(basis[i])
+                try:
+                    x = solve_gauss(sle.copy())
+                    limits_flag = True
 
-        if limitsFlag:
-            tempResult = 0
-            for i in range(0, len(targetFunc)):
-                tempResult += (targetFunc[i] * x[i])
-            if isMin:
-                if answerResult > tempResult:
-                    answerResult = tempResult
-                    answerVector = x.copy()
+                    for k in range(0, len(used_columns)):
+                        if x_limits[used_columns[k]] == 1:
+                            if x[k] < 0:
+                                limits_flag = False
+                        elif x_limits[used_columns[k]] == -1:
+                            if x[k] > 0:
+                                limits_flag = False
+
+                    for k in range(0, len(matrix_equality)):
+                        temp_result = 0
+                        for j in range(0, len(used_columns)):
+                            temp_result += (matrix[k][used_columns[j]] * x[j])
+                        if abs(temp_result - basis[k]) > 0.0000001:
+                            limits_flag = False
+
+                    for k in range(0, len(matrix_less)):
+                        temp_result = 0
+                        for j in range(0, len(used_columns)):
+                            temp_result += (matrix[len(matrix_equality) + k][used_columns[j]] * x[j])
+                        if temp_result > basis[len(matrix_equality) + k]:
+                            limits_flag = False
+
+                    for k in range(0, len(matrix_more)):
+                        temp_result = 0
+                        for j in range(0, len(used_columns)):
+                            temp_result += (matrix[len(matrix_equality) + len(matrix_less) + k][used_columns[j]] * x[j])
+                        if temp_result < basis[len(matrix_equality) + len(matrix_less) + k]:
+                            limits_flag = False
+
+                    if limits_flag:
+                        temp_result = 0
+                        for k in range(0, len(used_columns)):
+                            temp_result += (function[used_columns[k]] * x[k])
+                        if answer_result < temp_result:
+                            answer_result = temp_result
+                            answer_vector = x.copy()
+                            saved_column_indices = used_columns
+                except:
+                    continue
+    except StopIteration:
+        reference_vector = [0] * len(function)
+        for i in range(0, len(saved_column_indices)):
+            reference_vector[saved_column_indices[i]] = answer_vector[i]
+        j = 0
+        result = [0] * n
+        for i in range(0, n):
+            if x_limits[i] == 0:
+                result[i] = reference_vector[i] - reference_vector[n + j]
+                j += 1
             else:
-                if answerResult < tempResult:
-                    answerResult = tempResult
-                    answerVector = x.copy()
-
-    print(answerResult, answerVector)
+                result[i] = reference_vector[i]
+        return result
 
 
 def continue_solve(mark_in):  # проверка положительных оценок
@@ -182,31 +213,6 @@ def solve(matrix, function, basis):
     return matrix, function, basis
 
 
-def canonization(matrixEquality, matrixLess, matrixMore, xLimits, targetFunc, isMin):
-    if isMin:
-        function = np.copy(np.array(targetFunc) * -1)
-    else:
-        function = np.copy(np.array(targetFunc))
-
-    matrix = matrixEquality + matrixLess + matrixMore
-    rows = len(matrix)
-    for i in range(rows):
-        _ = matrix[i].pop(len(targetFunc))
-
-    print(function, matrix)
-    for i in range(len(xLimits)):
-        if (xLimits[i] < 0):
-            for j in range(len(matrix)):
-                matrix[j][i] *= -1
-            function[i] *= -1
-        if (xLimits[i] == 0):
-            for j in range(len(matrix)):
-                matrix[j].append(-1 * matrix[j][i])
-            function = np.append(function, [function[i] * -1])
-
-    print(function, matrix)
-
-
 def simplex_method(matrix, function, basis):
     matrix, function, basis = solve(matrix, function, basis)
     mark = get_mark(matrix, function, basis)
@@ -223,6 +229,53 @@ def simplex_method(matrix, function, basis):
     print("result = " + str(mark[0] * -1))
 
 
+def canonization(matrix_equality, matrix_more, matrix_less, x_limits, target_func, is_min):
+    if is_min:
+        function = np.copy(np.array(target_func) * -1)
+    else:
+        function = np.copy(np.array(target_func))
+
+    matrix = matrix_equality + matrix_less + matrix_more
+
+    basis = []
+    for i in range(0, len(matrix)):
+        basis.append(matrix[i][-1])
+
+    rows = len(matrix)
+    for i in range(rows):
+        _ = matrix[i].pop(len(target_func))
+
+    for i in range(len(x_limits)):
+        if x_limits[i] < 0:
+            for j in range(len(matrix)):
+                matrix[j][i] *= -1
+            function[i] *= -1
+        if x_limits[i] == 0:
+            for j in range(len(matrix)):
+                matrix[j].append(-1 * matrix[j][i])
+            function = np.append(function, [function[i] * -1])
+
+    if (len(matrix_more) + len(matrix_less)) > 0:
+        additional_matrix = []
+        for i in range(0, len(matrix_equality)):
+            additional_matrix.append([0] * (len(matrix_more) + len(matrix_less)))
+
+        for i in range(0, len(matrix_less)):
+            new_stroke = [0] * (len(matrix_more) + len(matrix_less))
+            new_stroke[i] = 1
+            additional_matrix.append(new_stroke)
+
+        for i in range(0, len(matrix_more)):
+            new_stroke = [0] * (len(matrix_more) + len(matrix_less))
+            new_stroke[(len(matrix_less) + i)] = -1
+            additional_matrix.append(new_stroke)
+
+        function = np.append(function, [0] * (len(matrix_more) + len(matrix_less)))
+        for i in range(0, len(matrix)):
+            matrix[i] = matrix[i] + additional_matrix[i]
+
+    return matrix, function, basis
+
 
 # ==
 A = [[0, -2, 0, 1, 1, -3], [0, 0, 1, -2, 0, 2], [0, 0, 3, 0, 10, 12]]
@@ -235,9 +288,20 @@ C = [[1, 3, 0, -1, 0, 5]]
 
 F = [-2, 1, -1, 0, 1]
 
+# # ==
+# A = [[1, -1, -4, 2, 1, 5], [1, 1, 1, 3, 2, 9], [1, 1, 1, 2, 1, 6]]
+#
+# # >=
+# B = [[5, 9, -10, 4, 20, -4], [1, 1, -14, -7, 9, 25]]
+#
+# # <=
+# C = [[2, -9, -7, 10, -1, 2]]
+#
+# F = [1, 2, -1, 3, -1]
+
 # 0 - not, 1 -> xi > 0, -1 -> xi < 0
 xLimits = [1, 1, 1, 0, 0]
 
 if __name__ == '__main__':
-    brut(A, C, B, xLimits, F, True)
-    canonization(A, B, C, xLimits, F, True)
+    matrix, function, basis = canonization(A, B, C, xLimits, F, True)
+    print(brute_force(matrix, function, basis, xLimits, A, B, C))
