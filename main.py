@@ -105,6 +105,7 @@ def brute_force(matrix, function, basis, x_limits, matrix_equality, matrix_more,
                         temp_result = 0
                         for k in range(0, len(used_columns)):
                             temp_result += (function[used_columns[k]] * x[k])
+                        print(x, used_columns, temp_result)
                         if answer_result < temp_result:
                             answer_result = temp_result
                             answer_vector = x.copy()
@@ -125,12 +126,19 @@ def brute_force(matrix, function, basis, x_limits, matrix_equality, matrix_more,
                 result[i] = reference_vector[i]
         return result
 
-def simplex_method(matrix, function, basis):
+def simplex_method(matrix, function, basis, x_limits, n):
+    start_x_limit_size = len(x_limits)
     extended_matrix = matrix
+
     for i in range(len(extended_matrix)):
         extended_matrix[i].append(basis[i])
 
-    used_columns = [-1] * len(matrix)
+    extended_matrix.append([0] * len(function))
+    for i in range(0, len(matrix[-1])):
+        matrix[-1][i] = function[i] * -1
+    extended_matrix[-1].append(0)
+
+    used_columns = [-1] * (len(extended_matrix) - 1)
     for i in range(0, len(function)):
         not_null_nums = 0
         first_num_row = -1
@@ -149,125 +157,63 @@ def simplex_method(matrix, function, basis):
                     extended_matrix[i][j] /= extended_matrix[i][used_columns[i]]
             extended_matrix[i][used_columns[i]] = 1
 
-    for i in range(0, len(used_columns)):
-        if used_columns[i] == -1:
-            for j in range(0, len(function)):
-                if j not in used_columns and extended_matrix[i][j] != 0:
-                    for m in range(0, len(extended_matrix[i])):
-                        if m != j:
-                            extended_matrix[i][m] /= extended_matrix[i][j]
-                    extended_matrix[i][j] = 1
-                    for k in range(len(extended_matrix)):
-                        if k != i:
-                            div = extended_matrix[k][j] / extended_matrix[i][j]
-                            for m in range(0, len(extended_matrix[k])):
-                                extended_matrix[k][m] -= div * extended_matrix[i][m]
-                    used_columns[i] = j
-                    break
-    print(np.array(extended_matrix))
-    print(used_columns)
-
-    row_max_b = 0
-    for i in range(1, len(extended_matrix)):
-        if abs(extended_matrix[i][-1]) >= abs(extended_matrix[row_max_b][-1]):
-            row_max_b = i
-
-    max_column = 0
-    for i in range(1, len(extended_matrix[row_max_b]) - 1):
-        if abs(extended_matrix[row_max_b][i]) >= abs(extended_matrix[row_max_b][max_column]):
-            max_column = i
-
-    for m in range(0, len(extended_matrix[row_max_b])):
-        if m != max_column:
-            extended_matrix[row_max_b][m] /= extended_matrix[row_max_b][max_column]
-    extended_matrix[row_max_b][max_column] = 1
-
-    for k in range(len(extended_matrix)):
-        if k != row_max_b:
-            div = extended_matrix[k][max_column] / extended_matrix[row_max_b][max_column]
-            for m in range(0, len(extended_matrix[k])):
-                extended_matrix[k][m] -= div * extended_matrix[row_max_b][m]
-
-    used_columns[row_max_b] = max_column
-
-    delta = []
-
-    for i in range(0, len(function)):
-        temp_result = 0
-        for j in range(0, len(used_columns)):
-            temp_result += function[used_columns[j]] * extended_matrix[j][i]
-        temp_result -= function[i]
-        delta.append(temp_result)
-
-    temp_result = 0
-    for j in range(0, len(used_columns)):
-        temp_result += function[used_columns[j]] * extended_matrix[j][-1]
-    temp_result -= function[-1]
-    delta.append(temp_result)
-
-    count = 0
-    while not check_positive(delta):
-        print("delta", count, delta)
-        for i in range(0, len(extended_matrix)):
-            print("s", count, extended_matrix[i])
-
-        min_delta = 0
-        for i in range(1, len(delta) - 1):
-            if delta[i] < delta[min_delta]:
-                min_delta = i
-
-        simplex_relationships = []
-        for i in range(0, len(extended_matrix)):
-            if extended_matrix[i][min_delta] != 0:
-                simplex_relationships.append(extended_matrix[i][-1] / extended_matrix[i][min_delta])
+    for i in range(0, n):
+        m = len(extended_matrix[i])
+        for j in range(0, len(extended_matrix)):
+            if j == i:
+                extended_matrix[j].insert(m - (len(basis) - n) - 1, 1)
             else:
-                simplex_relationships.append(-1)
+                extended_matrix[j].insert(m - (len(basis) - n) - 1, 0)
 
-        is_continue = False
-        min_simplex_relationships = 0
-        for i in range(0, len(simplex_relationships)):
-            if (simplex_relationships[i] > 0 and not is_continue) or (
-                    0 < simplex_relationships[i] < simplex_relationships[min_simplex_relationships]):
-                min_simplex_relationships = i
-                is_continue = True
+    while not check_positive(extended_matrix[-1]):
+        min_column = -1
 
-        print("sr", count, simplex_relationships, min_simplex_relationships)
-        if not is_continue:
+        for i in range(0, len(extended_matrix[-1]) - 1):
+            if extended_matrix[-1][i] < 0:
+                min_column = i
+                break
+
+        special_coff = [-1] * (len(extended_matrix) - 1)
+
+        for i in range(0, len(extended_matrix)):
+            if extended_matrix[i][min_column] > 0:
+                special_coff[i] = extended_matrix[i][-1] / extended_matrix[i][min_column]
+
+        min_row = -1
+        for i in range(0, len(special_coff)):
+            if special_coff[i] > 0:
+                if min_row == -1 or special_coff[min_row] > special_coff[i]:
+                    min_row = i
+
+        if min_row == -1:
             print("None")
             return None
 
-        for m in range(0, len(extended_matrix[min_simplex_relationships])):
-            if m != min_delta:
-                extended_matrix[min_simplex_relationships][m] /= extended_matrix[min_simplex_relationships][min_delta]
-        extended_matrix[min_simplex_relationships][min_delta] = 1
+        for m in range(0, len(extended_matrix[min_row])):
+            if m != min_column:
+                extended_matrix[min_row][m] /= extended_matrix[min_row][min_column]
+        extended_matrix[min_row][min_column] = 1
 
         for k in range(len(extended_matrix)):
-            if k != min_simplex_relationships:
-                div = extended_matrix[k][min_delta] / extended_matrix[min_simplex_relationships][min_delta]
+            if k != min_row:
+                div = extended_matrix[k][min_column] / extended_matrix[min_row][min_column]
                 for m in range(0, len(extended_matrix[k])):
-                    extended_matrix[k][m] -= div * extended_matrix[min_simplex_relationships][m]
+                    extended_matrix[k][m] -= div * extended_matrix[min_row][m]
 
-        used_columns[min_simplex_relationships] = min_delta
+        used_columns[min_row] = min_column
 
-        for i in range(0, len(extended_matrix)):
-            print("!", count, extended_matrix[i])
-        print(used_columns)
-
-        delta = []
-
-        for i in range(0, len(function)):
-            temp_result = 0
-            for j in range(0, len(used_columns)):
-                temp_result += function[used_columns[j]] * extended_matrix[j][i]
-            temp_result -= function[i]
-            delta.append(temp_result)
-
-        temp_result = 0
-        for j in range(0, len(used_columns)):
-            temp_result += function[used_columns[j]] * extended_matrix[j][-1]
-        temp_result -= function[-1]
-        delta.append(temp_result)
-    print(used_columns, np.array(extended_matrix))
+    reference_vector = [0] * len(function)
+    for i in range(0, len(extended_matrix) - 1):
+        reference_vector[used_columns[i]] = extended_matrix[i][-1]
+    j = 0
+    result = [0] * start_x_limit_size
+    for i in range(0, start_x_limit_size):
+        if x_limits[i] == 0:
+            result[i] = reference_vector[i] - reference_vector[n + j]
+            j += 1
+        else:
+            result[i] = reference_vector[i]
+    return result
 
 
 def check_positive(vector):
@@ -325,16 +271,16 @@ def canonization(matrix_equality, matrix_more, matrix_less, x_limits, target_fun
     return matrix, function, basis
 
 
-# ==
-A = [[-8, 3, 1, -2, -2, -2, 23], [-4, 2, 1, -1, -1, -1, 20], [-4, 2, 2, -1, -1, -1, 29]]
-
-# >=
-B = [[13, -3, -1, 3, 3, 3, -13]]
-
-# <=
-C = [[-23, 3, 1, -2, -3, -5, 17], [-18, 3, 1, -3, -3, -4, 12]]
-
-F = [4, 6, 2, 6, 5, 3]
+# # ==
+# A = [[-8, 3, 1, -2, -2, -2, 23], [-4, 2, 1, -1, -1, -1, 20], [-4, 2, 2, -1, -1, -1, 29]]
+#
+# # >=
+# B = [[13, -3, -1, 3, 3, 3, -13]]
+#
+# # <=
+# C = [[-23, 3, 1, -2, -3, -5, 17], [-18, 3, 1, -3, -3, -4, 12]]
+#
+# F = [4, 6, 2, 6, 5, 3]
 
 # # ==
 # A = [[1, -1, -4, 2, 1, 5], [1, 1, 1, 3, 2, 9], [1, 1, 1, 2, 1, 6]]
@@ -347,11 +293,155 @@ F = [4, 6, 2, 6, 5, 3]
 #
 # F = [1, 2, -1, 3, -1]
 
+# ==
+A = []
+
+B = []
+
+C = [[6, 3, 1, 4, 252], [2, 4, 5, 1, 144], [1, 2, 4, 3, 80]]
+
+F = [48, 33, 16, 22]
+
 # 0 - not, 1 -> xi > 0, -1 -> xi < 0
-xLimits = [1, 1, 1, 0, 0, 0]
+xLimits = [1, 1, 1, 1]
 
 if __name__ == '__main__':
-    matrix, function, basis = canonization(A, B, C, xLimits, F, True)
-    print(np.array(matrix))
-    print(brute_force(matrix, function, basis, xLimits, A, B, C))
-    simplex_method(matrix, function, basis)
+    input_equality = []
+    input_inequality_less = []
+    input_inequality_more = []
+    x_count = 0
+    restrictions_count = 0
+    input_target_func = []
+    input_is_min = False
+
+    input_check = False
+    while not input_check:
+        x_count = input("Введите количество переменных: ")
+        if int(x_count) > 0:
+            x_count = int(x_count)
+            input_check = True
+        else:
+            print("Введено недопустимое значение")
+
+    input_check = False
+    while not input_check:
+        restrictions_count = input("Введите количество ограничений: ")
+        if int(restrictions_count) > 0:
+            restrictions_count = int(restrictions_count)
+            input_check = True
+        else:
+            print("Введено недопустимое значение")
+
+
+    for i in range(0, int(restrictions_count)):
+        array_type = 0
+
+        input_check = False
+        while not input_check:
+            i_restriction = input("Выберите знак " + str((i+1)) + "-ого ограничения (-1 — ≤, 0 — =, 1 — ≥): ")
+            if int(i_restriction) == -1 or int(i_restriction) == 0 or int(i_restriction) == 1:
+                array_type = int(i_restriction)
+                input_check = True
+            else:
+                print("Введено недопустимое значение")
+
+        row = [0] * (x_count + 1)
+        i_restriction = input("Введите вектор (левую часть) " + str((i + 1)) + "-ого ограничения (через пробел): ")
+        restriction_vector = i_restriction.split()
+        for j in range(0, len(restriction_vector)):
+            if j > x_count:
+                break
+            row[j] = int(restriction_vector[j])
+
+        i_restriction = input("Введите правую часть " + str((i + 1)) + "-ого ограничения: ")
+        row[-1] = int(i_restriction)
+
+        print("Было введено ограничение: ", end='')
+        for j in range(0, len(row) - 1):
+            if row[j] > 0:
+                print("+", row[j], "* x" + str(j + 1), end=' ')
+            if row[j] < 0:
+                print("-", abs(row[j]), "* x" + str(j + 1), end=' ')
+
+        if array_type == 0:
+            input_equality.append(row)
+            print("=", input_equality[-1][-1])
+        elif array_type == -1:
+            input_inequality_less.append(row)
+            print("≤", input_inequality_less[-1][-1])
+        elif array_type == 1:
+            input_inequality_more.append(row)
+            print("≥", input_inequality_more[-1][-1])
+
+    input_target_func = [0] * x_count
+    target_func_string = input("Введите вектор функции цели (через пробел): ")
+    target_func_array = target_func_string.split()
+    for j in range(0, len(target_func_array)):
+        input_target_func[j] = int(target_func_array[j])
+
+    input_check = False
+    while not input_check:
+        is_min_string = input("Выберите тип задачи (0 — min, 1 — max) ")
+        if int(is_min_string) == 0:
+            input_is_min = True
+            input_check = True
+        elif int(is_min_string) == 1:
+            input_is_min = False
+            input_check = True
+        else:
+            print("Введено недопустимое значение")
+
+    x_limits = [0] * x_count
+    x_limits_string = input("Введите вектор ограничений на знак, через пробел (-1 — xᵢ ≤ 0, 0 — no limit for xᵢ, "
+                            "-1 — xᵢ ≥ 0): ")
+    x_limits_array = x_limits_string.split()
+    for j in range(0, len(x_limits_array)):
+        x_limits[j] = int(x_limits_array[j])
+
+    print("Было введено условие:")
+    print("\tФункция цели: ")
+    print("\t\tF(X) = ", end='')
+    for j in range(0, len(input_target_func)):
+        if input_target_func[j] > 0:
+            print("+", input_target_func[j], "* x" + str(j + 1), end=' ')
+        if input_target_func[j] < 0:
+            print("-", abs(input_target_func[j]), "* x" + str(j + 1), end=' ')
+    print("-> ", end='')
+    if input_is_min:
+        print("min")
+    else:
+        print("max")
+    print("\tСистема ограничений: ")
+    for i in range(0, len(input_equality)):
+        print("\t\t", end='')
+        for k in range(0, len(input_equality[i]) - 1):
+            if input_equality[i][k] > 0:
+                print("+", input_equality[i][k], "* x" + str(j + 1), end=' ')
+            if input_equality[i][k] < 0:
+                print("-", abs(input_equality[i][k]), "* x" + str(j + 1), end=' ')
+        print("=", input_equality[-1][-1])
+    for i in range(0, len(input_inequality_less)):
+        print("\t\t", end='')
+        for k in range(0, len(input_inequality_less[i]) - 1):
+            if input_inequality_less[i][k] > 0:
+                print("+", input_inequality_less[i][k], "* x" + str(j + 1), end=' ')
+            if input_inequality_less[i][k] < 0:
+                print("-", abs(input_inequality_less[i][k]), "* x" + str(j + 1), end=' ')
+        print("≤", input_inequality_less[-1][-1])
+    for i in range(0, len(input_inequality_more)):
+        print("\t\t", end='')
+        for k in range(0, len(input_inequality_more[i]) - 1):
+            if input_inequality_more[i][k] > 0:
+                print("+", input_inequality_more[i][k], "* x" + str(j + 1), end=' ')
+            if input_inequality_more[i][k] < 0:
+                print("-", abs(input_inequality_more[i][k]), "* x" + str(j + 1), end=' ')
+        print("≥", input_inequality_more[-1][-1])
+    for i in range(0, len(x_limits)):
+        if x_limits[i] > 0:
+            print("\t\tx" + str(i + 1) + " ≥ 0")
+        if x_limits[i] < 0:
+            print("\t\tx" + str(i + 1) + " ≤ 0")
+
+    matrix, function, basis = canonization(A, B, C, xLimits.copy(), F, False)
+    print(brute_force(matrix, function, basis, xLimits.copy(), A, B, C))
+    print(simplex_method(matrix, function, basis, xLimits.copy(), len(A)))
