@@ -269,6 +269,16 @@ def canonization(matrix_equality, matrix_more, matrix_less, x_limits, target_fun
 
     return matrix, function, basis
 
+def get_double_task (matrix_equality, matrix_more, matrix_less, x_limits, target_func, is_min):
+    is_double_min = not is_min
+    if (is_min):
+        for i in range(0, len(matrix_less)):
+            for j in range(0, len(matrix_less[i])):
+                matrix_less[i][j] *= -1
+    else:
+        for i in range(0, len(matrix_more)):
+            for j in range(0, len(matrix_more[i])):
+                matrix_more[i][j] *= -1
 
 # # ==
 # A = [[-8, 3, 1, -2, -2, -2, 23], [-4, 2, 1, -1, -1, -1, 20], [-4, 2, 2, -1, -1, -1, 29]]
@@ -418,7 +428,7 @@ if __name__ == '__main__':
                 print("+", input_equality[i][k], "* x" + str(j + 1), end=' ')
             if input_equality[i][k] < 0:
                 print("-", abs(input_equality[i][k]), "* x" + str(j + 1), end=' ')
-        print("=", input_equality[-1][-1])
+        print("=", input_equality[i][-1])
     for i in range(0, len(input_inequality_less)):
         print("\t\t", end='')
         for k in range(0, len(input_inequality_less[i]) - 1):
@@ -426,7 +436,7 @@ if __name__ == '__main__':
                 print("+", input_inequality_less[i][k], "* x" + str(j + 1), end=' ')
             if input_inequality_less[i][k] < 0:
                 print("-", abs(input_inequality_less[i][k]), "* x" + str(j + 1), end=' ')
-        print("≤", input_inequality_less[-1][-1])
+        print("≤", input_inequality_less[i][-1])
     for i in range(0, len(input_inequality_more)):
         print("\t\t", end='')
         for k in range(0, len(input_inequality_more[i]) - 1):
@@ -434,14 +444,15 @@ if __name__ == '__main__':
                 print("+", input_inequality_more[i][k], "* x" + str(j + 1), end=' ')
             if input_inequality_more[i][k] < 0:
                 print("-", abs(input_inequality_more[i][k]), "* x" + str(j + 1), end=' ')
-        print("≥", input_inequality_more[-1][-1])
+        print("≥", input_inequality_more[i][-1])
     for i in range(0, len(x_limits)):
         if x_limits[i] > 0:
             print("\t\tx" + str(i + 1) + " ≥ 0")
         if x_limits[i] < 0:
             print("\t\tx" + str(i + 1) + " ≤ 0")
 
-    matrix, function, basis = canonization(A, B, C, xLimits.copy(), F, False)
-    print(brute_force(matrix, function, basis, xLimits.copy(), A, B, C))
-    print(simplex_method(matrix, function, basis, xLimits.copy(), len(A)))
-
+    matrix, function, basis = canonization(input_equality, input_inequality_more, input_inequality_less,
+                                           x_limits.copy(), input_target_func, input_is_min)
+    print(brute_force(matrix, function, basis, x_limits.copy(), input_equality, input_inequality_more,
+                      input_inequality_less))
+    print(simplex_method(matrix, function, basis, x_limits.copy(), len(input_equality)))
