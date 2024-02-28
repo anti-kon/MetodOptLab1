@@ -47,7 +47,7 @@ def brute_force(matrix, function, basis, x_limits, matrix_equality, matrix_more,
     answer_vector = []
     saved_column_indices = []
 
-    x_limits += [0] * (len(function) - len(x_limits))
+    x_limits += [1] * (len(function) - len(x_limits))
 
     column_indices = []
     for i in range(0, len(function)):
@@ -105,7 +105,6 @@ def brute_force(matrix, function, basis, x_limits, matrix_equality, matrix_more,
                         temp_result = 0
                         for k in range(0, len(used_columns)):
                             temp_result += (function[used_columns[k]] * x[k])
-                        print(x, used_columns, temp_result)
                         if answer_result < temp_result:
                             answer_result = temp_result
                             answer_vector = x.copy()
@@ -445,3 +444,4 @@ if __name__ == '__main__':
     matrix, function, basis = canonization(A, B, C, xLimits.copy(), F, False)
     print(brute_force(matrix, function, basis, xLimits.copy(), A, B, C))
     print(simplex_method(matrix, function, basis, xLimits.copy(), len(A)))
+
