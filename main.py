@@ -275,11 +275,73 @@ def get_double_task (matrix_equality, matrix_more, matrix_less, x_limits, target
         for i in range(0, len(matrix_less)):
             for j in range(0, len(matrix_less[i])):
                 matrix_less[i][j] *= -1
+        for i in range(0, len(x_limits)):
+            if x_limits[i] < 0:
+                x_limits[i] *= -1
+                for j in range(0, len(matrix_less)):
+                    matrix_less[j][i] *= -1
+                for j in range(0, len(matrix_more)):
+                    matrix_more[j][i] *= -1
+                for j in range(0, len(matrix_equality)):
+                    matrix_equality[j][i] *= -1
     else:
         for i in range(0, len(matrix_more)):
             for j in range(0, len(matrix_more[i])):
                 matrix_more[i][j] *= -1
+        for i in range(0, len(x_limits)):
+            if x_limits[i] > 0:
+                x_limits[i] *= -1
+                for j in range(0, len(matrix_less)):
+                    matrix_less[j][i] *= -1
+                for j in range(0, len(matrix_more)):
+                    matrix_more[j][i] *= -1
+                for j in range(0, len(matrix_equality)):
+                    matrix_equality[j][i] *= -1
 
+    if (len(matrix_equality) != 0):
+        new_matrix = np.array(matrix_equality).transpose()
+        if (len(matrix_more) != 0):
+            new_matrix = new_matrix + np.array(matrix_more).transpose()
+        if (len(matrix_less) != 0):
+            new_matrix = new_matrix + np.array(matrix_less).transpose()
+    elif (len(matrix_more) != 0):
+        new_matrix = np.array(matrix_more).transpose()
+        if (len(matrix_less) != 0):
+            new_matrix = new_matrix + np.array(matrix_less).transpose()
+    else:
+        new_matrix = np.array(matrix_less).transpose()
+
+    new_equality = []
+    new_more = []
+    new_less = []
+
+    for i in range(0, len(target_func)):
+        if target_func[i] > 0:
+            new_equality.append([0] * (len(new_matrix[i]) + 1))
+            for j in range(0, len(new_matrix[i])):
+                new_equality[-1][j] = new_matrix[i][j]
+            new_equality[-1][-1] = target_func[i]
+        else:
+            if is_min:
+                new_less.append([0] * (len(new_matrix[i]) + 1))
+                for j in range(0, len(new_matrix[i])):
+                    new_less[-1][j] = new_matrix[i][j]
+                new_less[-1][-1] = target_func[i]
+            else:
+                new_more.append([0] * (len(new_matrix[i]) + 1))
+                for j in range(0, len(new_matrix[i])):
+                    new_more[-1][j] = new_matrix[i][j]
+                new_more[-1][-1] = target_func[i]
+
+    new_target_func = []
+    for i in range(0, len(new_matrix[-1])):
+        new_target_func.append(new_matrix[-1][i])
+
+    new_x_limits = [0] * len(new_target_func)
+    for i in range(0, len(matrix_less) + len(matrix_more)):
+        new_x_limits[len(matrix_equality) - 1 + i] = 1
+
+    return new_equality, new_more, new_less, new_target_func, new_x_limits, is_double_min
 # # ==
 # A = [[-8, 3, 1, -2, -2, -2, 23], [-4, 2, 1, -1, -1, -1, 20], [-4, 2, 2, -1, -1, -1, 29]]
 #
@@ -401,8 +463,8 @@ if __name__ == '__main__':
             print("Введено недопустимое значение")
 
     x_limits = [0] * x_count
-    x_limits_string = input("Введите вектор ограничений на знак, через пробел (-1 — xᵢ ≤ 0, 0 — no limit for xᵢ, "
-                            "-1 — xᵢ ≥ 0): ")
+    x_limits_string = input("Введите вектор ограничений на знак, через пробел (-1 — xᵢ ≤ 0, 0 — нет ограничения для "
+                            "xᵢ, -1 — xᵢ ≥ 0): ")
     x_limits_array = x_limits_string.split()
     for j in range(0, len(x_limits_array)):
         x_limits[j] = int(x_limits_array[j])
@@ -451,8 +513,55 @@ if __name__ == '__main__':
         if x_limits[i] < 0:
             print("\t\tx" + str(i + 1) + " ≤ 0")
 
-    matrix, function, basis = canonization(input_equality, input_inequality_more, input_inequality_less,
-                                           x_limits.copy(), input_target_func, input_is_min)
-    print(brute_force(matrix, function, basis, x_limits.copy(), input_equality, input_inequality_more,
-                      input_inequality_less))
-    print(simplex_method(matrix, function, basis, x_limits.copy(), len(input_equality)))
+    remember_a = np.array(input_equality)
+    remember_b = np.array(input_inequality_more)
+    remember_c = np.array(input_inequality_less)
+    matrix, function, basis = canonization(input_equality.copy(), input_inequality_more.copy(), input_inequality_less.copy(), x_limits.copy(), input_target_func.copy(), input_is_min)
+    remember_f = input_target_func.copy()
+    print("Метод перебора крайних точек: ", brute_force(matrix.copy(), function.copy(), basis.copy(), x_limits.copy(), input_equality.copy(), input_inequality_more.copy(), input_inequality_less.copy()))
+    print("Симплекс-метод: ", simplex_method(matrix.copy(), function.copy(), basis.copy(), x_limits.copy(), len(input_equality)))
+    new_equality, new_more, new_less, new_target_func, new_x_limits, new_is_min = get_double_task(remember_a, remember_b, remember_c, x_limits.copy(), remember_f.copy(), False)
+    print("Двойственная задача: ")
+    print("\tФункция цели: ")
+    print("\t\tF(X) = ", end='')
+    for j in range(0, len(new_target_func)):
+        if new_target_func[j] > 0:
+            print("+", new_target_func[j], "* x" + str(j + 1), end=' ')
+        if new_target_func[j] < 0:
+            print("-", abs(new_target_func[j]), "* x" + str(j + 1), end=' ')
+    print("-> ", end='')
+    if new_is_min:
+        print("min")
+    else:
+        print("max")
+    print("\tСистема ограничений: ")
+    for i in range(0, len(new_equality)):
+        print("\t\t", end='')
+        for k in range(0, len(new_equality[i]) - 1):
+            if new_equality[i][k] > 0:
+                print("+", new_equality[i][k], "* x" + str(j + 1), end=' ')
+            if new_equality[i][k] < 0:
+                print("-", abs(new_equality[i][k]), "* x" + str(j + 1), end=' ')
+        print("=", new_equality[i][-1])
+    for i in range(0, len(new_less)):
+        print("\t\t", end='')
+        for k in range(0, len(new_less[i]) - 1):
+            if new_less[i][k] > 0:
+                print("+", new_less[i][k], "* x" + str(j + 1), end=' ')
+            if new_less[i][k] < 0:
+                print("-", abs(new_less[i][k]), "* x" + str(j + 1), end=' ')
+        print("≤", new_less[i][-1])
+    for i in range(0, len(new_more)):
+        print("\t\t", end='')
+        for k in range(0, len(new_more[i]) - 1):
+            if new_more[i][k] > 0:
+                print("+", new_more[i][k], "* x" + str(j + 1), end=' ')
+            if new_more[i][k] < 0:
+                print("-", abs(new_more[i][k]), "* x" + str(j + 1), end=' ')
+        print("≥", new_more[i][-1])
+    for i in range(0, len(new_x_limits)):
+        if new_x_limits[i] > 0:
+            print("\t\tx" + str(i + 1) + " ≥ 0")
+        if new_x_limits[i] < 0:
+            print("\t\tx" + str(i + 1) + " ≤ 0")
+
