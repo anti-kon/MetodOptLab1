@@ -242,3 +242,40 @@ html {
     display: inline-block;
     margin-left: 2em;
 }
+
+.matrix {
+    display: inline-table;
+    border: solid #3b3b3b;
+    border-width: 0 2px;
+    border-collapse: collapse;
+    vertical-align: middle;
+    *display: inline;
+    /* для IE7-, чтоб ему( */
+    *margin-right: .25em;
+    /* туда же, чтоб пробелы не "съедал" */
+}
+.matrix tr:before,
+.matrix tr:after {
+    display: table-cell;
+    content: '\a0';
+    width: .25em;
+}
+.matrix tr:first-child:before,
+.matrix tr:first-child:after {
+    border-top: 2px solid #3b3b3b;
+}
+.matrix tr:last-child:before,
+.matrix tr:last-child:after {
+    border-bottom: 2px solid #3b3b3b;
+}
+.matrix td {
+    min-width: 1em;
+    padding: 0 .25em;
+    text-align: center;
+    border: 0;
+}
+.sup,
+.sub {
+    font-size: 75%;
+    line-height: 1px;
+}

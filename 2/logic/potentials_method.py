@@ -1,3 +1,4 @@
+import scipy
 import itertools
 import math
 
@@ -169,8 +170,10 @@ def potentials_method(local_path_matrix, local_cost_matrix, local_matrix_mask):
                 local_path_deltas[row_index][column_index] = (local_demand_potentials[column_index] +
                                                               local_proposal_potentials[row_index] -
                                                               local_cost_matrix[row_index][column_index])
-                print(local_demand_potentials[column_index], local_proposal_potentials[row_index], local_cost_matrix[row_index][column_index],
-                      local_demand_potentials[column_index] + local_proposal_potentials[row_index] - local_cost_matrix[row_index][column_index])
+                print(local_demand_potentials[column_index], local_proposal_potentials[row_index],
+                      local_cost_matrix[row_index][column_index],
+                      local_demand_potentials[column_index] + local_proposal_potentials[row_index] -
+                      local_cost_matrix[row_index][column_index])
                 if local_path_deltas[row_index][column_index] > 0:
                     if local_max_delta <= local_path_deltas[row_index][column_index]:
                         local_max_delta = local_path_deltas[row_index][column_index]
@@ -214,7 +217,8 @@ def potentials_method(local_path_matrix, local_cost_matrix, local_matrix_mask):
     local_is_removed_duplicate = False
     for point_index in range(0, len(local_cycle)):
         if point_index % 2 == 1:
-            local_path_matrix[local_cycle[point_index][0]][local_cycle[point_index][1]] += local_cycle[point_index][2] * local_min_negative
+            local_path_matrix[local_cycle[point_index][0]][local_cycle[point_index][1]] += local_cycle[point_index][
+                                                                                               2] * local_min_negative
             if local_path_matrix[local_cycle[point_index][0]][local_cycle[point_index][1]] == 0:
                 if not local_is_removed_duplicate:
                     local_matrix_mask[local_cycle[point_index][0]][local_cycle[point_index][1]] = 0
@@ -226,7 +230,8 @@ def potentials_method(local_path_matrix, local_cost_matrix, local_matrix_mask):
 
     for point_index in range(0, len(local_cycle)):
         if point_index % 2 == 0:
-            local_path_matrix[local_cycle[point_index][0]][local_cycle[point_index][1]] += local_cycle[point_index][2] * local_min_negative
+            local_path_matrix[local_cycle[point_index][0]][local_cycle[point_index][1]] += local_cycle[point_index][
+                                                                                               2] * local_min_negative
             if local_path_matrix[local_cycle[point_index][0]][local_cycle[point_index][1]] == 0:
                 if not local_is_removed_duplicate:
                     local_matrix_mask[local_cycle[point_index][0]][local_cycle[point_index][1]] = 0
@@ -252,18 +257,17 @@ def potentials_method(local_path_matrix, local_cost_matrix, local_matrix_mask):
 def get_canonical(local_cost_matrix, local_proposal_vector, local_demand_vector):
     local_canonical_matrix = []
     local_basis = []
-    local_matrix_equality = []
     local_matrix_less = []
 
     for i in range(0, len(local_demand_vector)):
         local_canonical_matrix.append([0] * (len(local_cost_matrix) * len(local_cost_matrix[0]) +
                                              len(local_proposal_vector)))
-        local_matrix_equality.append([0] * (len(local_cost_matrix) * len(local_cost_matrix[0]) + 1))
+        local_matrix_less.append([0] * (len(local_cost_matrix) * len(local_cost_matrix[0]) + 1))
         for j in range(0, len(local_cost_matrix)):
             local_canonical_matrix[-1][i + (j * len(local_demand_vector))] = 1
-            local_matrix_equality[-1][i + (j * len(local_demand_vector))] = 1
+            local_matrix_less[-1][i + (j * len(local_demand_vector))] = 1
         local_basis.append(local_demand_vector[i])
-        local_matrix_equality[-1][-1] = local_demand_vector[i]
+        local_matrix_less[-1][-1] = local_demand_vector[i]
 
     for i in range(0, len(local_proposal_vector)):
         local_canonical_matrix.append([0] * (len(local_cost_matrix) * len(local_cost_matrix[0]) +
@@ -283,7 +287,7 @@ def get_canonical(local_cost_matrix, local_proposal_vector, local_demand_vector)
 
     local_x_limits = [1] * (len(local_cost_matrix) * len(local_cost_matrix[0]) + len(local_proposal_vector))
 
-    return local_canonical_matrix, local_basis, local_function_vector, local_x_limits, local_matrix_equality, local_matrix_less
+    return local_canonical_matrix, local_basis, local_function_vector, local_x_limits, [], local_matrix_less
 
 
 def bubble_max_row(m, col):
@@ -342,6 +346,8 @@ def brute_force(local_matrix, local_function, local_basis, local_x_limits, local
 
     comb_generator = itertools.combinations(column_indices, len(local_matrix))
 
+    iterations = 0
+
     try:
         while True:
             used_columns = next(comb_generator)
@@ -352,6 +358,7 @@ def brute_force(local_matrix, local_function, local_basis, local_x_limits, local
                     row.append(local_matrix[i][used_columns[j]])
                 sle.append(row)
             dot = np.linalg.det(sle)
+            iterations += 1
             if dot != 0:
                 for i in range(0, len(sle)):
                     sle[i].append(local_basis[i])
@@ -362,6 +369,7 @@ def brute_force(local_matrix, local_function, local_basis, local_x_limits, local
                     for k in range(0, len(used_columns)):
                         if local_x_limits[used_columns[k]] == 1:
                             if x[k] < 0:
+                                print("x!")
                                 limits_flag = False
                         elif local_x_limits[used_columns[k]] == -1:
                             if x[k] > 0:
@@ -372,6 +380,7 @@ def brute_force(local_matrix, local_function, local_basis, local_x_limits, local
                         for j in range(0, len(used_columns)):
                             temp_result += (local_matrix[k][used_columns[j]] * x[j])
                         if abs(temp_result - local_basis[k]) > 0.0000001:
+                            print("equality!")
                             limits_flag = False
 
                     for k in range(0, len(local_matrix_less)):
@@ -379,17 +388,23 @@ def brute_force(local_matrix, local_function, local_basis, local_x_limits, local
                         for j in range(0, len(used_columns)):
                             temp_result += (local_matrix[len(local_matrix_equality) + k][used_columns[j]] * x[j])
                         if temp_result > local_basis[len(local_matrix_equality) + k]:
+                            print("less!")
                             limits_flag = False
 
                     for k in range(0, len(local_matrix_more)):
                         temp_result = 0
                         for j in range(0, len(used_columns)):
                             temp_result += (
-                                    local_matrix[len(local_matrix_equality) + len(local_matrix_less) + k][used_columns[j]] * x[j])
+                                    local_matrix[len(local_matrix_equality) + len(local_matrix_less) + k][
+                                        used_columns[j]] * x[j])
                         if temp_result < local_basis[len(local_matrix_equality) + len(local_matrix_less) + k]:
+                            print("more!")
                             limits_flag = False
 
                     if limits_flag:
+                        reference_vector = [0] * len(local_function)
+                        for i in range(0, len(used_columns)):
+                            reference_vector[used_columns[i]] = x[i]
                         temp_result = 0
                         for k in range(0, len(used_columns)):
                             temp_result += (local_function[used_columns[k]] * x[k])
@@ -397,6 +412,7 @@ def brute_force(local_matrix, local_function, local_basis, local_x_limits, local
                             answer_result = temp_result
                             answer_vector = x.copy()
                             saved_column_indices = used_columns
+                        print(reference_vector, temp_result)
                 except:
                     continue
     except StopIteration:
@@ -411,7 +427,13 @@ def brute_force(local_matrix, local_function, local_basis, local_x_limits, local
                 j += 1
             else:
                 result[i] = reference_vector[i]
-        return result
+        print(result, iterations)
+        return result, iterations
+
+
+def getDouble(local_matrix, local_function, local_basis):
+    A_ub_T = np.array(local_matrix).transpose()
+    return A_ub_T, local_basis, local_function
 
 
 ###
@@ -440,4 +462,3 @@ if __name__ == '__main__':
     canonical_matrix, basis, function_vector, x_limits, matrix_equality, matrix_less = get_canonical(
         cost_matrix, proposal_vector, demand_vector)
     print(brute_force(canonical_matrix, function_vector, basis, x_limits, matrix_equality, [], matrix_less))
-
