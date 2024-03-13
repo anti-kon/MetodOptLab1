@@ -162,11 +162,11 @@ async function getPotentialsMethodResult() {
 
         if (isOptimal) {
             let optimalLabel = document.createElement('p');
-            optimalLabel.innerHTML = "Отрицательных оценок нет. Следовательно решение оптимально.";
+            optimalLabel.innerHTML = "Положительных оценок нет. Следовательно решение оптимально.";
             result.appendChild(optimalLabel);
         } else {
             let optimalLabel = document.createElement('p');
-            optimalLabel.innerHTML = "Есть отрицательные оценки. Следовательно, возможно получить новое решение, как минимум, не хуже имеющегося.";
+            optimalLabel.innerHTML = "Есть положительные оценки. Следовательно, возможно получить новое решение, как минимум, не хуже имеющегося.";
             result.appendChild(optimalLabel);
 
             result.appendChild(document.createTextNode(`ШАГ №: ${(step + 1)}`));
