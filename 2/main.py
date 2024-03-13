@@ -43,9 +43,9 @@ def get_potentials_method_result(cost_matrix, proposal_vector, demand_vector):
         step_start_matrix = copy.deepcopy(path_matrix)
         step_matrix_mask = copy.deepcopy(matrix_mask)
 
-    canonical_matrix, basis, function_vector, x_limits, matrix_equality, matrix_less = get_canonical(
-        cost_matrix, proposal_vector, demand_vector)
-    print(brute_force(canonical_matrix, function_vector, basis, x_limits, matrix_equality, [], matrix_less))
+    # canonical_matrix, basis, function_vector, x_limits, matrix_equality, matrix_less = pm.get_canonical(
+    #     cost_matrix, proposal_vector, demand_vector)
+    # print(pm.brute_force(canonical_matrix, function_vector, basis, x_limits, matrix_equality, [], matrix_less))
 
     return (save_cost_matrix, save_proposal_vector, save_demand_vector, advantage == 0, cost_matrix, proposal_vector,
             demand_vector, start_path_matrix, start_matrix_mask, solve_steps, path_matrix)
