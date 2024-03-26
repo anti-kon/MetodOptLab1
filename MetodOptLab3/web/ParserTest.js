@@ -12,7 +12,7 @@ function parse() {
             lexer, tokens, token, i,
             parser, syntax;
 
-        code = document.getElementById('code').value;
+        code = document.getElementById('equation').value;
         try {
             if (typeof lexer === 'undefined') {
                 lexer = new TapDigit.Lexer();
@@ -83,7 +83,7 @@ function parse() {
 
             document.getElementById('syntax').innerHTML = stringify(syntax, 'Expression', 0);
             toMathMl(syntax.Expression).then(e => {
-                document.getElementById('equation_showcase').innerHTML = (convertStringToMath(e))
+                convertStringToMath(e).then(s => document.getElementById('equation_showcase').innerHTML = s)
             });
         } catch (e) {
             document.getElementById('syntax').innerText = e.message;

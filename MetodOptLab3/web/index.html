@@ -11,36 +11,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
     <title>Optimization Methods Laboratory Work No. 3</title>
     <link rel="stylesheet" href="index.css">
-    <style>
-    mjx-container[display="block"] {
-        display: block;
-        margin: 1em 0;
-    }
-    </style>
     <script>
     MathJax = {
         startup: {
             ready: function () {
-            //
-            //  Do the usual startup ready actions (create document, input/output jax, etc).
-            //
-            MathJax.startup.defaultReady();
-            const toMML = MathJax.startup.toMML;
-            //
-            //  Add a post-filter to the output jax to add the extra attributes
-            //
-            MathJax.startup.output.postFilters.add((args) => {
-              const math = args.math, node = args.data;
-              const original = (math.math ? math.math :
-                                math.inputJax.processStrings ? '' : math.start.node.outerHTML);
-              node.setAttribute('data-original', original);
-              node.setAttribute('data-mathml', toMML(math.root).replace(/\n\s*/g, ''));
-            });
+                MathJax.startup.defaultReady();
+                const toMML = MathJax.startup.toMML;
+
+                MathJax.startup.output.postFilters.add((args) => {
+                  const math = args.math, node = args.data;
+                  const original = (math.math ? math.math :
+                                    math.inputJax.processStrings ? '' : math.start.node.outerHTML);
+                  node.setAttribute('data-original', original);
+                  node.setAttribute('data-mathml', toMML(math.root).replace(/\n\s*/g, ''));
+                });
             }
         }
     };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+    </script>
 </head>
 <body>
     <div class="box">
@@ -55,39 +46,40 @@
             <button onclick="buttonClick('(')">(</button>
             <button onclick="buttonClick(',')">,</button>
             <button onclick="buttonClick(')')">)</button>
-            <button onclick="buttonClick('/')">÷</button>
+            <button onclick="clearInput()">CE</button>
             <button onclick="buttonClick('cos()')">cos</button>
             <button onclick="buttonClick('acos()')">acos</button>
             <button onclick="buttonClick('e')">e</button>
             <button onclick="buttonClick(7)">7</button>
             <button onclick="buttonClick(8)">8</button>
             <button onclick="buttonClick(9)">9</button>
-            <button onclick="buttonClick('*')">×</button>
+            <button onclick="buttonClick('/')">÷</button>
             <button onclick="buttonClick('tan()')">tan</button>
             <button onclick="buttonClick('atan()')">atan</button>
-            <button>
+            <button onclick="buttonClick('sqrt( , )')">
                 <math><msqrt><mrow><mo>x</mo></mrow><mo>y</mo></msqrt></math>
             </button>
             <button onclick="buttonClick(4)">4</button>
             <button onclick="buttonClick(5)">5</button>
             <button onclick="buttonClick(6)">6</button>
-            <button onclick="buttonClick('+')">+</button>
+            <button onclick="buttonClick('*')">×</button>
             <button onclick="buttonClick('cot()')">cot</button>
             <button onclick="buttonClick('acot()')">acot</button>
             <button onclick="buttonClick('pow( , )')">x^y</button>
             <button onclick="buttonClick(1)">1</button>
             <button onclick="buttonClick(2)">2</button>
             <button onclick="buttonClick(3)">3</button>
-            <button onclick="buttonClick('-')">-</button>
+            <button onclick="buttonClick('+')">+</button>
             <button onclick="buttonClick('ln()')">ln</button>
             <button onclick="buttonClick('log( , )')">log</button>
             <button onclick="buttonClick('factorial( )')">!</button>
             <button onclick="buttonClick('.')">.</button>
             <button onclick="buttonClick(0)">0</button>
-            <button class="double-button" onclick="clearInput()">CE</button>
+            <button onclick="buttonClick('x')">x</button>
+            <button onclick="buttonClick('-')">-</button>
         </div>
-        <button>Метод золотого сечения</button>
-        <button>Метод Фибоначи</button>
+        <button onclick="getGoldenRatioMethodResult()">Метод золотого сечения</button>
+        <button onclick="getFibonacciMethodResult()">Метод Фибоначи</button>
         <pre id="syntax" class="skip"></pre>
         <div id="output"></div>
     </div>

@@ -1,5 +1,36 @@
+async function getFibonacciMethodResult() {
+    let equation = document.getElementById('equation').value;
+    if (equation === ''){
+        return;
+    }
+
+    let output = document.getElementById("output");
+    let result = document.createElement('div');
+    result.className = 'result';
+    let calculations = await eel.get_fibonacci_method_result(equation)();
+    console.log(calculations)
+
+	output.prepend(result);
+}
+
+async function getGoldenRatioMethodResult() {
+    let equation = document.getElementById('equation').value;
+    if (equation === ''){
+        return;
+    }
+
+    let output = document.getElementById("output");
+    let result = document.createElement('div');
+    result.className = 'result';
+    let calculations = await eel.get_golden_ratio_method_result(equation)();
+    console.log(calculations)
+
+	output.prepend(result);
+}
+
 async function buttonClick(data) {
 	document.getElementById('equation').value += data
+	parse()
 }
 
 async function clearInput() {
@@ -29,6 +60,7 @@ async function toMathMl(expression) {
 				await toMathMl(expression.Binary.right).then(e => str = str +  e)
 			str += `</mfrac>`
 		} else {
+			str += `<mrow>`
 			if (expression.Binary.left.Expression) {
 				str += `<mrow>`
 				str += `<mo>(</mo>`
@@ -48,6 +80,7 @@ async function toMathMl(expression) {
 				str += `</mrow>`
 			} else
 				await toMathMl(expression.Binary.right).then(e => str = str +  e)
+			str += `</mrow>`
 		}
 	} else if (expression.Unary) {
 		str += `<mo>`
@@ -108,7 +141,7 @@ async function toMathMl(expression) {
 	return str
 }
 
-const convertStringToMath = htmlString => {
+const convertStringToMath = async htmlString => {
     const parser = new DOMParser();
     const html = parser.parseFromString(htmlString, 'text/html');
     return html.body.innerHTML;

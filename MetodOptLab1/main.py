@@ -1,5 +1,4 @@
 import copy
-import functools
 import itertools
 import math
 import numpy as np
