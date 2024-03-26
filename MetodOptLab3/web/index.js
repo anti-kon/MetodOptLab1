@@ -1,4 +1,11 @@
-// (pow(a, 2) + pow(5, 3)) / (b * 7)
+async function buttonClick(data) {
+	document.getElementById('equation').value += data
+}
+
+async function clearInput() {
+	document.getElementById('equation').value = ''
+}
+
 async function toMathMl(expression) {
 	let str = ``;
 	if (expression.Binary) {
