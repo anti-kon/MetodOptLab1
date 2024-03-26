@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width">
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <title>Optimization Methods Laboratory Work No. 3</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+    mjx-container[display="block"] {
+        display: block;
+        margin: 1em 0;
+    }
+    </style>
+    <script>
+  MathJax = {
+    startup: {
+      ready: function () {
+        //
+        //  Do the usual startup ready actions (create document, input/output jax, etc).
+        //
+        MathJax.startup.defaultReady();
+        const toMML = MathJax.startup.toMML;
+        //
+        //  Add a post-filter to the output jax to add the extra attributes
+        //
+        MathJax.startup.output.postFilters.add((args) => {
+          const math = args.math, node = args.data;
+          const original = (math.math ? math.math :
+                            math.inputJax.processStrings ? '' : math.start.node.outerHTML);
+          node.setAttribute('data-original', original);
+          node.setAttribute('data-mathml', toMML(math.root).replace(/\n\s*/g, ''));
+        });
+      }
+    }
+  };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
+
+</head>
+<body>
+    <div class="box">
+        <div class="calculator-input">
+            <math id="equation_showcase" class="equation-showcase">
+            </math>
+            <input type="text" id="code" autocapitalize="off" spellcheck="false"
+                   value="x = 6 + 7" onChange='parse()' onKeyDown='parse()'/>
+            <button>sin</button>
+            <button>asin</button>
+            <button>pi</button>
+            <button>(</button>
+            <button>,</button>
+            <button>)</button>
+            <button>÷</button>
+            <button>cos</button>
+            <button>acos</button>
+            <button>e</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>×</button>
+            <button>tan</button>
+            <button>atan</button>
+            <button>sqrt(x, y)</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>+</button>
+            <button>cot</button>
+            <button>acot</button>
+            <button>x^y</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>-</button>
+            <button>ln</button>
+            <button>log</button>
+            <button>!</button>
+            <button>.</button>
+            <button>0</button>
+            <button class="double-button">CE</button>
+        </div>
+        <pre id="syntax" class="skip"></pre>
+        <div id="output"></div>
+    </div>
+</body>
+
+<script type="text/javascript" src="/eel.js"></script>
+<script src="TapDigit.js" type="text/javascript" charset="utf-8"></script>
+<script src="ParserTest.js" type="text/javascript" charset="utf-8"></script>
+<script src="index.js"></script>
+</html>
