@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <title>Optimization Methods Laboratory Work No. 2</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="calculator">
+        <div class="headBlock">
+            <div class="blockDesign">
+                <div class="configPanel">
+                    <div>
+                        <label for="variables_num">Количество переменных:</label>
+                        <input type="number" id="variables_num" name="variables_num"
+                               min="1" max="50" placeholder="max 50" onchange="addRelationshipsMatrix()"/>
+                    </div>
+                    <div>
+                        <label for="restrictions_num">Количество ограничений:</label>
+                        <input type="number" id="restrictions_num" name="restrictions_num"
+                               min="1" max="20" placeholder="max 20" onchange="addRelationshipsMatrix()"/>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label for="file_input" class="mainButton">Загрузить из файла</label>
+                <input type="file" id="file_input" name="input_file" accept="text/plain" onchange="handleFileLoad()"/>
+                <p class="content"></p>
+            </div>
+        </div>
+        <div id="inputMatrix" class="inputMatrix"></div>
+        <div class="buttonsPanel">
+            <button id="simplex_calculate_btn" class="mainButton">Вычислить симплекс-методом<br/>(на таблицах)</button>
+            <button id="brute_force_calculate_btn" class="mainButton">Вычислить методом перебора крайних точек</button>
+            <button id="get_canon_task_btn" class="mainButton">Привести к каноническому виду</button>
+            <button id="get_dual_task_btn" class="mainButton">Составить двойственную задачу</button>
+        </div>
+        <div id="output"></div>
+    </div>
+</body>
+
+<script type="text/javascript" src="/eel.js"></script>
+<script src="index.js"></script>
+
+</html>

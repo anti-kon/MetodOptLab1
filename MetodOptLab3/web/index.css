@@ -10,13 +10,27 @@ html {
     position: absolute;
     left: 0;
     top: 0;
+    bottom: 0;
     padding: 0;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .calculator-input {
     display: grid;
     grid-template-columns: repeat(7, max-content);
+    color: #3b3b3b;
+    padding: 1em;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    border: 2px dashed #DAA06D;
+    border-radius: 15px;
+    background-color: #EADDCA;
+    box-shadow: 0 0 0 4px #EADDCA, 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+    transition: .1s ease-in-out, .4s color;
+    align-items: center;
 }
 
 .equation-showcase {
@@ -34,6 +48,7 @@ html {
     color: #3b3b3b;
     font-family: "Oswald", sans-serif;
     font-weight: 500;
+    margin: 2px ;
 }
 
 .double-button {

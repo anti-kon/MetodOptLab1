@@ -1,0 +1,176 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background: #f3ece3;
+}
+
+.calculator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.configPanel {
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    min-width: 260px;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    margin: 15px;
+}
+
+.configPanel div {
+    display: flex;
+    width: 100%;
+}
+
+.configPanel input {
+    border: solid 2px #DAA06D;
+    background: none;
+    margin: 2px;
+    border-radius: 5px;
+    text-align: center;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    width: 70px;
+    color: #3b3b3b;
+}
+
+.configPanel input::-webkit-outer-spin-button,
+.configPanel input::-webkit-inner-spin-button {
+    opacity: 1;
+}
+
+.configPanel label {
+    margin-right: auto;
+}
+
+.inputMatrix {
+    display: grid;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    width: max-content;
+    margin: auto;
+}
+
+.inputMatrix select {
+    width: 40px;
+    margin: 5px;
+    background: none;
+    border: solid 2px #DAA06D;
+    border-radius: 5px;
+    text-align: center;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    height: auto;
+    max-height: 100%;
+}
+
+.inputMatrix div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputMatrix input {
+    width: 40px;
+    margin: 5px;
+    background: none;
+    border: solid 2px #DAA06D;
+    border-radius: 5px;
+    text-align: center;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    height: auto;
+    max-height: 100%;
+}
+
+.inputMatrix input::-webkit-outer-spin-button,
+.inputMatrix input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.inputMatrix input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+.blockDesign {
+    outline: none;
+    color: #DAA06D;
+    border: 2px dashed #DAA06D;
+    border-radius: 15px;
+    background-color: #EADDCA;
+    box-shadow: 0 0 0 4px #EADDCA, 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+    transition: .1s ease-in-out, .4s color;
+}
+
+.headBlock {
+    width: max-content;
+    height: max-content;
+    margin: 10px auto 0 auto;
+}
+
+.mainButton {
+    margin: 15px auto;
+    height: 70px;
+    width: 220px;
+    justify-content: center;
+    padding: 1em;
+    display: flex;
+    outline: none;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    border: 2px dashed #DAA06D;
+    border-radius: 15px;
+    background-color: #EADDCA;
+    box-shadow: 0 0 0 4px #EADDCA, 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+    transition: .1s ease-in-out, .4s color;
+    align-items: center;
+}
+
+.buttonsPanel {
+    display: grid;
+    max-width: 480px;
+    margin: auto;
+    grid-template-columns: repeat(auto-fill, 220px);
+    grid-column-gap: 40px;
+    justify-content: center
+}
+
+.mainButton:active {
+    transform: translateX(0.1em) translateY(0.1em);
+    box-shadow: 0 0 0 4px #EADDCA, 1.5px 1.5px 2.5px 1.5px rgba(0, 0, 0, 0.5);
+}
+
+
+.mainButton + input{
+    display: none;
+}
+
+.result {
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    padding: 20px;
+    margin: 20px;
+    outline: none;
+    border: 2px dashed #DAA06D;
+    border-radius: 15px;
+    background-color: #EADDCA;
+    box-shadow: 0 0 0 4px #EADDCA, 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+    transition: .1s ease-in-out, .4s color;
+}
