@@ -9,8 +9,9 @@ import logic.solve as logic
 def get_fibonacci_method_result(function, a, b, delta):
     answer = []
     for i in [0.1, 0.01, 0.001]:
-        x_p, R, d = logic.fibonacciMethod(a, b, i, delta, logic.string_to_function(function))
-        answer.append([i, x_p, R, d, logic.count_of_calls])
+        print(logic.fibonacciMethod(a, b, i, delta, logic.string_to_function(function)))
+        x_p, R, d, S = logic.fibonacciMethod(a, b, i, delta, logic.string_to_function(function))
+        answer.append([i, x_p, R, d, S])
         x = np.arange(a, b, 0.01)
         plt.clf()
         plt.xlabel("x")

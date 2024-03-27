@@ -119,7 +119,8 @@ def fibonacciMethod(a: float, b: float, epsilon: float, delta: float, function):
             b = x2
             k += 1
             if k == S - 1:
-                return kMoreThanSMinusOne(a, b, epsilon, delta, x1, x2, A, B, function), S
+                x, R, d = kMoreThanSMinusOne(a, b, epsilon, delta, x1, x2, A, B, function)
+                return x, R, d, S
             else:
                 x2 = x1
                 B = A
@@ -130,7 +131,8 @@ def fibonacciMethod(a: float, b: float, epsilon: float, delta: float, function):
             a = x1
             k += 1
             if k == S - 1:
-                return kMoreThanSMinusOne(a, b, epsilon, delta, x1, x2, A, B, function)
+                x, R, d = kMoreThanSMinusOne(a, b, epsilon, delta, x1, x2, A, B, function)
+                return x, R, d, S
             else:
                 x1 = x2
                 A = B
