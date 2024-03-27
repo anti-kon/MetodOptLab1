@@ -14,6 +14,7 @@ async function getFibonacciMethodResult() {
 	let b = parseInt(document.getElementById('b_value').value);
 	let delta = parseInt(document.getElementById('delta_value').value);
 	if (equation === '' || isNaN(a) || isNaN(b)){
+		document.getElementById("loader").style.display='none';
         return;
     }
 	delta = isNaN(delta) ? 0.01 : delta;
@@ -87,6 +88,7 @@ async function getGoldenRatioMethodResult() {
 	let a = parseInt(document.getElementById('a_value').value);
 	let b = parseInt(document.getElementById('b_value').value);
 	if (equation === '' || isNaN(a) || isNaN(b)){
+		document.getElementById("loader").style.display='none';
         return;
     }
 
