@@ -1,7 +1,33 @@
 import math
 from math import cos
 from math import sin
-from math import exp
+from math import tan
+from math import acos
+from math import asin
+from math import atan
+from math import e
+from math import log
+from math import pi
+from math import gamma
+
+def factorial(a):
+    return gamma(a+1)
+
+def acot(a):
+    return 1 / atan(a)
+
+
+def ln(a):
+    return log(a)
+
+
+def cot(a):
+    return 1 / tan(a)
+
+
+def sqrt(a, b):
+    return a ** (1 / b)
+
 
 count_of_calls = 0
 func = [0, 2, 1, 4, 17, 21] # коэффициенты задаются, начиная с коэффициента при нулевой степени
@@ -38,6 +64,7 @@ def golden_ratio(a: float, b: float, epsilon: float, function):
             else:
                x = (a + b) / 2
                R = function(x)
+               count_of_calls += 1
                return x, R, (b - a)
         else:
             a = x1
@@ -67,7 +94,7 @@ def kMoreThanSMinusOne(a: float, b: float, epsilon: float, delta: float, x1: flo
 
 def fibonacciMethod(a: float, b: float, epsilon: float, delta: float, function):
     global count_of_calls
-    count_of_calls = 0
+    count_of_calls = -2
 
     fibonacci_numbers = [1, 1]
     N = (b - a) / epsilon
@@ -92,7 +119,7 @@ def fibonacciMethod(a: float, b: float, epsilon: float, delta: float, function):
             b = x2
             k += 1
             if k == S - 1:
-                return kMoreThanSMinusOne(a, b, epsilon, delta, x1, x2, A, B, function)
+                return kMoreThanSMinusOne(a, b, epsilon, delta, x1, x2, A, B, function), S
             else:
                 x2 = x1
                 B = A
@@ -118,6 +145,8 @@ def string_to_function(expression):
 
 if __name__ == '__main__':
     lambda_func = input(str())
-    for i in [1, 0.2, 0.02, 0.002, 0.0002, 0.00002, 0.000002, 0.0000002, 0.00000002, 0.00000002, 0.00000002]:
-        print("golden ratio for", i, ":", golden_ratio(-3, 5, i, string_to_function(lambda_func)), count_of_calls)
-        print("fibonacci for", i, ":", fibonacciMethod(-3, 5, i, 0.01, string_to_function(lambda_func)), count_of_calls)
+    a = 5
+    b = 8
+    for i in [0.001, 0.01, 0.1]:
+        print("golden ratio for", i, ":", golden_ratio(a, b, i, string_to_function(lambda_func)), count_of_calls)
+        print("fibonacci for", i, ":", fibonacciMethod(a, b, i, 0.00001, string_to_function(lambda_func)), count_of_calls)

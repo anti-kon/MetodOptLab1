@@ -13,14 +13,16 @@ html {
     bottom: 0;
     padding: 0;
     width: 100%;
+}
+
+.working-area {
+    margin-top: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.calculator-input {
-    display: grid;
-    grid-template-columns: repeat(7, max-content);
+.calculator {
     color: #3b3b3b;
     padding: 1em;
     font-family: "Oswald", sans-serif;
@@ -33,10 +35,25 @@ html {
     align-items: center;
 }
 
+.calculator-input {
+    display: grid;
+    grid-template-columns: repeat(7, max-content);
+}
+
 .equation-showcase {
     text-align: center;
     grid-column-start: 1;
     grid-column-end: 8;
+    min-height: 80px;
+    background: #694c35;
+    height: max-content;
+    padding: 10px;
+    border-radius: 10px;
+    color: #faeacd;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .calculator-input input[type = text] {
@@ -44,26 +61,184 @@ html {
     grid-column-end: 8;
 }
 
-.calculator-input button {
+.calculator-buttons {
+    background: #b68962;
     min-width: 40px;
-    max-height: 40px;
+    min-height: 40px;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #3b3b3b;
+    text-align: center;
     font-family: "Oswald", sans-serif;
     font-weight: 500;
     font-size: 24px;
     margin: 2px ;
-    border-radius: 5px;
-}
-
-.double-button {
-    grid-column-start: 6;
-    grid-column-end: 8;
+    color: wheat;
+    border-radius: 10px;
+    border: none;
 }
 
 .skip {
     display: none;
+}
+
+.row {
+    width: auto;
+    max-width: 100%;
+    display: grid;
+    font-size: 24px;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    grid-template-columns: repeat(3, max-content);
+    line-height: 18px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+    grid-column-gap: 10px;
+    margin-top: 5px;
+}
+
+.calculator-input input {
+    border: solid 2px #DAA06D;
+    border-radius: 5px;
+    text-align: center;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.row input {
+    width: 100px;
+    border: solid 2px #DAA06D;
+    border-radius: 5px;
+    text-align: center;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.row input::-webkit-outer-spin-button,
+.row input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.row input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.row label{
+    text-align: center;
+    width: 100%;
+}
+
+.delta_label {
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.small_text {
+    bottom: -16px;
+    height: min-content;
+    width: auto;
+    max-width: 100%;
+    position: absolute;
+    left: 0;
+    font-size: 8px;
+}
+
+.down {
+    position: absolute;
+    bottom: 8px;
+    left: -6px;
+}
+
+.absolute {
+    position: relative;
+    margin-left: 10px;
+}
+
+.result-buttons-block {
+    display: flex;
+    background: none;
+    margin-top: 5px;
+}
+
+.result-buttons-block button:first-child {
+    margin-left: 0;
+    margin-right: auto;
+    font-size: 18px;
+}
+
+.result-buttons-block button:last-child {
+    margin-right: 0;
+    margin-left: auto;
+    font-size: 18px;
+}
+
+.result {
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    padding: 20px;
+    margin: 20px;
+    outline: none;
+    border: 2px dashed #DAA06D;
+    border-radius: 15px;
+    background-color: #EADDCA;
+    box-shadow: 0 0 0 4px #EADDCA, 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+    transition: .1s ease-in-out, .4s color;
+}
+
+.loader {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.loader svg {
+    display: none;
+    margin: auto;
+    width: 3.25em;
+    transform-origin: center;
+    animation: rotate4 2s linear infinite;
+}
+
+.loader circle {
+    fill: none;
+    stroke: hsl(27, 33%, 31%);
+    stroke-width: 8;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: dash4 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate4 {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash4 {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 200;
+        stroke-dashoffset: -35px;
+    }
+
+    100% {
+        stroke-dashoffset: -125px;
+    }
 }

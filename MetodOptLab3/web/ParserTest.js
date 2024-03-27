@@ -13,6 +13,10 @@ function parse() {
             parser, syntax;
 
         code = document.getElementById('equation').value;
+        if (code === ''){
+            document.getElementById('equation_showcase').innerHTML = ''
+            return
+        }
         try {
             if (typeof lexer === 'undefined') {
                 lexer = new TapDigit.Lexer();
