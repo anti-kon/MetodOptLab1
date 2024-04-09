@@ -153,8 +153,12 @@ html {
 }
 
 .buttonsRow {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    margin: auto;
     align-items: center;
+    width: max-content;
+    grid-column-gap: 40px;
 }
 
 .mainButton:active {
