@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width">
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <title>Optimization Methods Laboratory Work No. 3</title>
+    <link rel="stylesheet" href="index.css">
+    <script>
+    MathJax = {
+        startup: {
+            ready: function () {
+                MathJax.startup.defaultReady();
+                const toMML = MathJax.startup.toMML;
+
+                MathJax.startup.output.postFilters.add((args) => {
+                  const math = args.math, node = args.data;
+                  const original = (math.math ? math.math :
+                                    math.inputJax.processStrings ? '' : math.start.node.outerHTML);
+                  node.setAttribute('data-original', original);
+                  node.setAttribute('data-mathml', toMML(math.root).replace(/\n\s*/g, ''));
+                });
+            }
+        }
+    };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML"></script>
+</head>
+<body>
+    <div class="box">
+        <div class="working-area">
+            <div class="calculator">
+                <div class="calculator-input">
+                    <math id="equation_showcase" class="equation-showcase">
+                    </math>
+                    <input type="text" id="equation" autocapitalize="off" spellcheck="false"
+                           onChange='parse()' onKeyDown='parse()'
+                           onblur="setCursorPosition(document.getElementById('equation').selectionEnd)"/>
+                    <button class="calculator-buttons" onclick="buttonClick('sin()', 4)">sin</button>
+                    <button class="calculator-buttons" onclick="buttonClick('asin()', 5)">asin</button>
+                    <button class="calculator-buttons" onclick="buttonClick('pi', 2)"><math><mi>π</mi></math></button>
+                    <button class="calculator-buttons" onclick="buttonClick('(', 1)">(</button>
+                    <button class="calculator-buttons" onclick="buttonClick(',', 1)">,</button>
+                    <button class="calculator-buttons" onclick="buttonClick(')', 1)">)</button>
+                    <button class="calculator-buttons" onclick="clearInput()">CE</button>
+                    <button class="calculator-buttons" onclick="buttonClick('x', 1)">x</button>
+                    <button class="calculator-buttons" onclick="buttonClick('cos()', 4)">cos</button>
+                    <button class="calculator-buttons" onclick="buttonClick('acos()', 5)">acos</button>
+                    <button class="calculator-buttons" onclick="buttonClick('e', 1)">e</button>
+                    <button class="calculator-buttons" onclick="buttonClick(7, 1)">7</button>
+                    <button class="calculator-buttons" onclick="buttonClick(8, 1)">8</button>
+                    <button class="calculator-buttons" onclick="buttonClick(9, 1)">9</button>
+                    <button class="calculator-buttons" onclick="buttonClick('/', 1)">÷</button>
+                    <button class="calculator-buttons" onclick="buttonClick('y', 1)">y</button>
+                    <button class="calculator-buttons" onclick="buttonClick('tan()', 4)">tan</button>
+                    <button class="calculator-buttons" onclick="buttonClick('atan()', 5)">atan</button>
+                    <button class="calculator-buttons" onclick="buttonClick('sqrt(, )', 5)">
+                        <math><mrow class="absolute">
+                            <msub class="down"><mi></mi><mi>y</mi></msub>
+                            <msqrt><mrow><mi>x</mi></mrow></msqrt></mrow>
+                        </math>
+                    </button>
+                    <button class="calculator-buttons" onclick="buttonClick(4, 1)">4</button>
+                    <button class="calculator-buttons" onclick="buttonClick(5, 1)">5</button>
+                    <button class="calculator-buttons" onclick="buttonClick(6, 1)">6</button>
+                    <button class="calculator-buttons" onclick="buttonClick('*', 1)">×</button>
+                    <div></div>
+                    <button class="calculator-buttons" onclick="buttonClick('cot()', 4)">cot</button>
+                    <button class="calculator-buttons" onclick="buttonClick('acot()', 5)">acot</button>
+                    <button class="calculator-buttons" onclick="buttonClick('pow(, )', 4)">
+                        <math>
+                            <msup><mi>x</mi><mi>y</mi></msup>
+                        </math>
+                    </button>
+                    <button class="calculator-buttons" onclick="buttonClick(1, 1)">1</button>
+                    <button class="calculator-buttons" onclick="buttonClick(2, 1)">2</button>
+                    <button class="calculator-buttons" onclick="buttonClick(3, 1)">3</button>
+                    <button class="calculator-buttons" onclick="buttonClick('+', 1)">+</button>
+                    <div></div>
+                    <button class="calculator-buttons" onclick="buttonClick('ln()', 3)">ln</button>
+                    <button class="calculator-buttons" onclick="buttonClick('log(, )', 4)">log</button>
+                    <button class="calculator-buttons" onclick="buttonClick('factorial()', 10)">!</button>
+                    <button class="calculator-buttons" onclick="buttonClick('.', 1)">.</button>
+                    <button class="calculator-buttons" onclick="buttonClick(0, 1)">0</button>
+                    <div></div>
+                    <button class="calculator-buttons" onclick="buttonClick('-', 1)">-</button>
+                </div>
+                <div class="row">
+                    <label for="x_init">
+                        <math><mrow class="absolute">
+                            <msub><mi>x</mi><mi>0</mi></msub></mrow>
+                        </math>
+                    </label>
+                    <label for="y_init">
+                        <math><mrow class="absolute">
+                            <msub><mi>y</mi><mi>0</mi></msub></mrow>
+                        </math>
+                    </label>
+                    <label for="epsilon_value">
+                        ε
+                    </label>
+                    <label for="delta_value">
+                        <div class="delta_label">
+                            <label>шаг</label>
+                           <label class="small_text">(для метода градиентов)</label>
+                        </div>
+                    </label>
+                    <input type="number" id="x_init" name="x_init"/>
+                    <input type="number" id="y_init" name="y_init"/>
+                    <input type="number" id="epsilon_value" name="epsilon_value" placeholder="0.01"/>
+                    <input type="number" id="delta_value" name="delta_value" placeholder="0.01"/>
+                </div>
+                <div class="result-buttons-block">
+                    <button class="calculator-buttons" onclick="getGradientMethodResult()">Метод градиентов</button>
+                    <button class="calculator-buttons" onclick="getNewtonMethodResult()">Метод Ньютона</button>
+                    <button class="calculator-buttons" onclick="getBFGSResult()">Метод BFGS</button>
+                </div>
+            </div>
+        </div>
+        <div id="loader" class="loader">
+            <div class="dot-spinner">
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+            </div>
+        </div>
+        <pre id="syntax" class="skip"></pre>
+        <div id="output"></div>
+    </div>
+</body>
+
+<script type="text/javascript" src="/eel.js"></script>
+<script src="TapDigit.js" type="text/javascript" charset="utf-8"></script>
+<script src="ParserTest.js" type="text/javascript" charset="utf-8"></script>
+<script src="index.js"></script>
+</html>
