@@ -85,6 +85,7 @@ function parse() {
                 return indent + ' ' + key + ': ' + str;
             }
 
+            console.log(syntax)
             document.getElementById('syntax').innerHTML = stringify(syntax, 'Expression', 0);
             toMathMl(syntax.Expression).then(e => {
                 convertStringToMath(e).then(s => document.getElementById('equation_showcase').innerHTML = s)

@@ -276,7 +276,7 @@ async function toMathMl(expression) {
 				str += `</msqrt></mrow>`
 			}
 		}  else if (expression.FunctionCall.name === `pow`) {
-			str += `<msup>`
+			str += `<mrow><msup>`
 			if (expression.FunctionCall.args[0].Expression) {
 				str += `<mrow>`
 				str += `<mo>(</mo>`
@@ -293,7 +293,7 @@ async function toMathMl(expression) {
 				str += `</mrow>`
 			} else
 				await toMathMl(expression.FunctionCall.args[1]).then(e => str = str +  e)
-			str += `</msub>`
+			str += `</msub></mrow>`
 		} else if (expression.FunctionCall.name === `log`) {
 			str += `<mrow><msub>`
 			str += `<mi>${expression.FunctionCall.name}</mi>`

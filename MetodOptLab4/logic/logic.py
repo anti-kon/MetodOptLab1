@@ -69,12 +69,10 @@ def derivative_yy(x, y, increment, function):
 
 def gradient_method(init_x, init_y, epsilon, step, function):
     path = [[init_x], [init_y]]
-    x_old_value = init_x
-    y_old_value = init_y
     gradient_init = gradient(init_x, init_y, epsilon, function)
     x_new_value = init_x - step * gradient_init[0][0]
     y_new_value = init_y - step * gradient_init[1][0]
-    while abs(function(x_old_value, y_old_value) - function(x_new_value, y_new_value)) > epsilon:
+    while True:
         x_old_value = x_new_value
         y_old_value = y_new_value
         gradient_new = gradient(x_new_value, y_new_value, epsilon, function)
@@ -82,6 +80,9 @@ def gradient_method(init_x, init_y, epsilon, step, function):
         y_new_value = y_new_value - step * gradient_new[1][0]
         path[0].append(x_new_value)
         path[1].append(y_new_value)
+        if is_not_improved(gradient(x_old_value, y_old_value, epsilon, function),
+                           gradient(x_new_value, y_new_value, epsilon, function), epsilon):
+            break
     return x_new_value, y_new_value, path
 
 
@@ -93,11 +94,12 @@ def colvec2tuple(x: np.array) -> tuple:
     return tuple(x.T[0])
 
 
-def newton_method(init_x, epsilon, step, function):
+def newton_method(init_x, epsilon, delta, function):
     path = [[init_x[0]], [init_x[1]]]
-
+    step = 1
     x = tuple2colvec(init_x)
-    for i in range(0, 100):
+    while True:
+        step = delta * step
         gradient_value = gradient(x[0][0], x[1][0], epsilon, function)
         hessian = [[derivative_xx(x[0][0], x[1][0], epsilon, function),
                     derivative_xy(x[0][0], x[1][0], epsilon, function)],
@@ -107,19 +109,21 @@ def newton_method(init_x, epsilon, step, function):
 
         x = x - step * (np.matmul(hessian, gradient_value))
 
-        if is_not_improved(x_old_value, x, epsilon):
+        if is_not_improved(gradient(x_old_value[0][0], x_old_value[1][0], epsilon, function),
+                           gradient(x[0][0], x[1][0], epsilon, function), epsilon):
             break
 
         path[0].append(x[0][0])
         path[1].append(x[1][0])
     return path[0][-1], path[1][-1], path
 
-def broyden_fletcher_goldfarb_shanno_method(init_x, epsilon, step, function):
+def broyden_fletcher_goldfarb_shanno_method(init_x, epsilon, delta, function):
     path = [[init_x[0]], [init_x[1]]]
-
+    step = 1
     x = tuple2colvec(init_x)
     x_old_value = None
-    for i in range(0, 100):
+    while True:
+        step = 0.9 * step
         gradient_value = gradient(x[0][0], x[1][0], epsilon, function)
 
         if x_old_value is None:
@@ -133,7 +137,8 @@ def broyden_fletcher_goldfarb_shanno_method(init_x, epsilon, step, function):
 
         x = x - step * (np.matmul(hessian, gradient_value))
 
-        if is_not_improved(x_old_value, x, epsilon):
+        if is_not_improved(gradient(x_old_value[0][0], x_old_value[1][0], epsilon, function),
+                           gradient(x[0][0], x[1][0], epsilon, function), epsilon):
             break
 
         path[0].append(x[0][0])
@@ -143,7 +148,7 @@ def broyden_fletcher_goldfarb_shanno_method(init_x, epsilon, step, function):
 
 
 def is_not_improved(x_prev, x, epsilon):
-    return np.abs(x_prev - x).sum() < epsilon
+    return np.abs(np.subtract(x_prev, x)).sum() < epsilon
 
 
 if __name__ == '__main__':
@@ -159,7 +164,7 @@ if __name__ == '__main__':
     print(math_function(a_x, a_y))
     print(path)
 
-    a_x, a_y, path = newton_method((0, 0), 0.0001, 0.01, math_function)
+    a_x, a_y, path = newton_method((0, 0), 0.0001, 0.035, math_function)
     print(a_x, a_y)
     print(math_function(a_x, a_y))
     print(path)
