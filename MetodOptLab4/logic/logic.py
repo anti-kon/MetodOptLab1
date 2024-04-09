@@ -1,6 +1,35 @@
-import random
 import matplotlib.pyplot as plt
 import numpy as np
+import math
+from math import cos
+from math import sin
+from math import tan
+from math import acos
+from math import asin
+from math import atan
+from math import e
+from math import log
+from math import pi
+from math import gamma
+
+def factorial(a):
+    return gamma(a+1)
+
+def acot(a):
+    return 1 / atan(a)
+
+
+def ln(a):
+    return log(a)
+
+
+def cot(a):
+    return 1 / tan(a)
+
+
+def sqrt(a, b):
+    return a ** (1 / b)
+
 
 f = "((x - 1) ** 2) / (1) + ((y + 3) ** 2) / (0.4)"
 
