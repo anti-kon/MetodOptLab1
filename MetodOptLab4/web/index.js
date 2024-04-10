@@ -210,7 +210,6 @@ async function getNewtonMethodResult() {
 	output.prepend(result);
 }
 
-
 async function getBFGSResult() {
 	document.getElementById("loader").style.display='flex';
 	let save_formula = document.getElementById('equation_showcase').cloneNode(true);
