@@ -34,9 +34,10 @@ def sqrt(a, b):
     return a ** (1 / b)
 
 
-f = "x ** 2 + 4 * (y ** 2) + 3 * x + 2 * y + x ** 4"
+f = "x ** 2 + 4 * (y ** 2) + 3 * x + 2 * y + 3 + x ** 4"
 
-
+# 2 + 12 x * 2  0   | (2 + 12 x^2 - l) (8 - l) = 0 (l = 8) l = 2 + 12 x^2
+# 0 8 - l              |
 def string_to_function(expression):
     def function(x, y):
         return eval(expression)
@@ -179,10 +180,10 @@ def is_not_improved(x_prev, x, epsilon):
 if __name__ == '__main__':
     math_function = string_to_function(f)
 
-    a_x, a_y, path = newton_method((-2, -2), 0.001, 0.9, math_function)
+    a_x, a_y, path = newton_method((-1, -1), 0.001, 0.8, math_function)
     print(a_x, a_y, math_function(a_x, a_y))
-    x = np.linspace(-5, 5, 100)
-    y = np.linspace(-3, 20, 100)
+    x = np.linspace(-2, 1, 100)
+    y = np.linspace(-3, 3, 100)
     X, Y = np.meshgrid(x, y)
     F = math_function(X, Y)
 
@@ -195,6 +196,7 @@ if __name__ == '__main__':
     ax.plot(a_x, a_y, 'ro')
     plt.xlabel("x")
     plt.ylabel("y")
+    plt.title("Newton methods")
 
     fig, ax = plt.subplots()
     error = []
@@ -202,7 +204,7 @@ if __name__ == '__main__':
         error.append(np.abs(np.subtract(math_function(a_x, a_y), math_function(path[0][i], path[1][i]))).sum())
     line1, = ax.plot(range(1, len(error) + 1), error, label='Newton method')
 
-    a_x, a_y, path = broyden_fletcher_goldfarb_shanno_method((-2, -2), 0.001, math_function)
+    a_x, a_y, path = broyden_fletcher_goldfarb_shanno_method((-1, -1), 0.001, math_function)
     print(a_x, a_y, math_function(a_x, a_y))
     X, Y = np.meshgrid(x, y)
     F = math_function(X, Y)
