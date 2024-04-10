@@ -10,13 +10,13 @@ async function getGradientMethodResult() {
 	save_formula.id = '';
 	save_formula.className = '';
     let equation = document.getElementById('equation').value;
-	let x = parseInt(document.getElementById('x_init').value);
-	let y = parseInt(document.getElementById('y_init').value);
-	let step = parseInt(document.getElementById('step_value').value);
-	let x_min = parseInt(document.getElementById('x_min').value);
-	let y_min = parseInt(document.getElementById('y_min').value);
-	let x_max = parseInt(document.getElementById('x_max').value);
-	let y_max = parseInt(document.getElementById('y_max').value);
+	let x = parseFloat(document.getElementById('x_init').value);
+	let y = parseFloat(document.getElementById('y_init').value);
+	let step = parseFloat(document.getElementById('step_value').value);
+	let x_min = parseFloat(document.getElementById('x_min').value);
+	let y_min = parseFloat(document.getElementById('y_min').value);
+	let x_max = parseFloat(document.getElementById('x_max').value);
+	let y_max = parseFloat(document.getElementById('y_max').value);
 	let x_split = parseInt(document.getElementById('x_split').value);
 	let y_split = parseInt(document.getElementById('y_split').value);
 	if (equation === '' || isNaN(x) || isNaN(y) || isNaN(x_min) || isNaN(y_min) ||
@@ -24,6 +24,7 @@ async function getGradientMethodResult() {
 		document.getElementById("loader").style.display='none';
         return;
     }
+	console.log(step)
 	step = isNaN(step) ? 0.01 : step;
 
     let output = document.getElementById("output");
@@ -116,13 +117,13 @@ async function getNewtonMethodResult() {
 	save_formula.id = '';
 	save_formula.className = '';
     let equation = document.getElementById('equation').value;
-	let x = parseInt(document.getElementById('x_init').value);
-	let y = parseInt(document.getElementById('y_init').value);
-	let delta = parseInt(document.getElementById('delta_value').value);
-	let x_min = parseInt(document.getElementById('x_min').value);
-	let y_min = parseInt(document.getElementById('y_min').value);
-	let x_max = parseInt(document.getElementById('x_max').value);
-	let y_max = parseInt(document.getElementById('y_max').value);
+	let x = parseFloat(document.getElementById('x_init').value);
+	let y = parseFloat(document.getElementById('y_init').value);
+	let delta = parseFloat(document.getElementById('delta_value').value);
+	let x_min = parseFloat(document.getElementById('x_min').value);
+	let y_min = parseFloat(document.getElementById('y_min').value);
+	let x_max = parseFloat(document.getElementById('x_max').value);
+	let y_max = parseFloat(document.getElementById('y_max').value);
 	let x_split = parseInt(document.getElementById('x_split').value);
 	let y_split = parseInt(document.getElementById('y_split').value);
 	if (equation === '' || isNaN(x) || isNaN(y) || isNaN(x_min) || isNaN(y_min) ||
@@ -222,12 +223,12 @@ async function getBFGSResult() {
 	save_formula.id = '';
 	save_formula.className = '';
     let equation = document.getElementById('equation').value;
-	let x = parseInt(document.getElementById('x_init').value);
-	let y = parseInt(document.getElementById('y_init').value);
-	let x_min = parseInt(document.getElementById('x_min').value);
-	let y_min = parseInt(document.getElementById('y_min').value);
-	let x_max = parseInt(document.getElementById('x_max').value);
-	let y_max = parseInt(document.getElementById('y_max').value);
+	let x = parseFloat(document.getElementById('x_init').value);
+	let y = parseFloat(document.getElementById('y_init').value);
+	let x_min = parseFloat(document.getElementById('x_min').value);
+	let y_min = parseFloat(document.getElementById('y_min').value);
+	let x_max = parseFloat(document.getElementById('x_max').value);
+	let y_max = parseFloat(document.getElementById('y_max').value);
 	let x_split = parseInt(document.getElementById('x_split').value);
 	let y_split = parseInt(document.getElementById('y_split').value);
 	if (equation === '' || isNaN(x) || isNaN(y) || isNaN(x_min) || isNaN(y_min) ||
