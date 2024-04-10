@@ -60,9 +60,9 @@ async function getFibonacciMethodResult() {
 		result.innerHTML += answer[0]
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "X = "
-		result.innerHTML += answer[1].toFixed(6)
+		result.innerHTML += answer[1].toPrecision(1)
 		result.innerHTML += " ± "
-		result.innerHTML += answer[3].toFixed(6)
+		result.innerHTML += answer[3].toPrecision(1)
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "Количество итераций:"
 		result.innerHTML += answer[4]
@@ -131,9 +131,9 @@ async function getGoldenRatioMethodResult() {
 		result.innerHTML += answer[0]
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "X = "
-		result.innerHTML += answer[1].toFixed(6)
+		result.innerHTML += answer[1].toPrecision(1)
 		result.innerHTML += " ± "
-		result.innerHTML += answer[3].toFixed(6)
+		result.innerHTML += answer[3].toPrecision(1)
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "Количество итераций:"
 		result.innerHTML += answer[4]

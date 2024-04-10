@@ -34,7 +34,7 @@ def sqrt(a, b):
     return a ** (1 / b)
 
 
-f = "(x ** 4) + (y ** 4)"
+f = "(x**2)+4*(y**2)+3*x+2*y"
 
 
 def string_to_function(expression):
@@ -182,10 +182,21 @@ if __name__ == '__main__':
 
     a_x, a_y, path = newton_method((2, 2), 0.001, 0.9, math_function)
     print(a_x, a_y, math_function(a_x, a_y))
-    x = np.linspace(-2, 2, 100)
+    x = np.linspace(-4, 1, 100)
     y = np.linspace(-2, 2, 100)
     X, Y = np.meshgrid(x, y)
     F = math_function(X, Y)
+
+    ax = plt.figure().add_subplot(111, projection='3d')
+    ax.scatter(a_x, a_y, math_function(a_x, a_y), color='red')
+    ax.plot_surface(X, Y, F, rstride=5, cstride=5, alpha=0.7)
+    for i in range(0, len(path[0]) - 1):
+        ax.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]],
+                [math_function(path[0][i], path[1][i]),
+                 math_function(path[0][i + 1], path[1][i + 1])], c='r')
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_zlabel("z")
 
     fig, ax = plt.subplots()
     error = []
@@ -207,5 +218,16 @@ if __name__ == '__main__':
     ax.legend(handles=[line1, line2])
     plt.xlabel("iteration")
     plt.ylabel("error")
+
+    ax = plt.figure().add_subplot(111, projection='3d')
+    ax.scatter(a_x, a_y, math_function(a_x, a_y), color='red')
+    ax.plot_surface(X, Y, F, rstride=5, cstride=5, alpha=0.7)
+    for i in range(0, len(path[0]) - 1):
+        ax.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]],
+                [math_function(path[0][i], path[1][i]),
+                 math_function(path[0][i + 1], path[1][i + 1])], c='r')
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_zlabel("z")
 
     plt.show()
