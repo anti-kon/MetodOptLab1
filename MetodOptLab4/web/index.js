@@ -82,6 +82,9 @@ async function getGradientMethodResult() {
 		result.innerHTML += "Значение: "
 		result.innerHTML += answer[3] % 1 === 0 ? answer[3] + ".0" : Math.trunc(answer[3]) + "." + String((answer[3] % 1).toPrecision(1)).split('.')[1]
 		result.appendChild(document.createElement('br'))
+		result.innerHTML += "Количество итераций: "
+		result.innerHTML += answer[7]
+		result.appendChild(document.createElement('br'))
 		let img1 = new Image();
 		img1.onload = function(){
 		  // execute drawImage statements here
@@ -185,6 +188,9 @@ async function getNewtonMethodResult() {
 		result.innerHTML += "Значение: "
 		result.innerHTML += answer[3] % 1 === 0 ? answer[3] + ".0" : Math.trunc(answer[3]) + "." + String((answer[3] % 1).toPrecision(1)).split('.')[1]
 		result.appendChild(document.createElement('br'))
+		result.innerHTML += "Количество итераций: "
+		result.innerHTML += answer[7]
+		result.appendChild(document.createElement('br'))
 		let img1 = new Image();
 		img1.onload = function(){
 		  // execute drawImage statements here
@@ -283,6 +289,9 @@ async function getBFGSResult() {
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "Значение: "
 		result.innerHTML += answer[3] % 1 === 0 ? answer[3] + ".0" : Math.trunc(answer[3]) + "." + String((answer[3] % 1).toPrecision(1)).split('.')[1]
+		result.appendChild(document.createElement('br'))
+		result.innerHTML += "Количество итераций: "
+		result.innerHTML += answer[7]
 		result.appendChild(document.createElement('br'))
 		let img1 = new Image();
 		img1.onload = function(){

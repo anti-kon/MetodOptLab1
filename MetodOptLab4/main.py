@@ -7,7 +7,7 @@ import logic.solve as logic
 def get_gradient_method_result(function_str, x_input, y_input, x_min, x_max, y_min, y_max, x_split, y_split, step):
     answer = []
     for i in [0.1, 0.01, 0.001]:
-        a_x, a_y, path = logic.gradient_method(x_input, y_input, i, step, logic.string_to_function(function_str))
+        a_x, a_y, path, k = logic.gradient_method(x_input, y_input, i, step, logic.string_to_function(function_str))
         function = logic.string_to_function(function_str)
         answer.append([i, a_x, a_y, function(a_x, a_y)])
         print(a_x, a_y, function(a_x, a_y))
@@ -55,13 +55,14 @@ def get_gradient_method_result(function_str, x_input, y_input, x_min, x_max, y_m
         plt.savefig("web/" + name, transparent=True)
         answer[-1].append(name)
         plt.close('all')
+        answer[-1].append(k)
     return answer
 
 @eel.expose
 def get_broyden_fletcher_goldfarb_shanno_method_result(function_str, x_input, y_input, x_min, x_max, y_min, y_max, x_split, y_split):
     answer = []
     for i in [0.1, 0.01, 0.001]:
-        a_x, a_y, path = logic.broyden_fletcher_goldfarb_shanno_method((x_input, y_input), i, logic.string_to_function(function_str))
+        a_x, a_y, path, k = logic.broyden_fletcher_goldfarb_shanno_method((x_input, y_input), i, logic.string_to_function(function_str))
         function = logic.string_to_function(function_str)
         answer.append([i, a_x, a_y, function(a_x, a_y)])
         print(a_x, a_y, function(a_x, a_y))
@@ -109,13 +110,14 @@ def get_broyden_fletcher_goldfarb_shanno_method_result(function_str, x_input, y_
         plt.savefig("web/" + name, transparent=True)
         answer[-1].append(name)
         plt.close('all')
+        answer[-1].append(k)
     return answer
 
 @eel.expose
 def get_newton_method_result(function_str, x_input, y_input, x_min, x_max, y_min, y_max, x_split, y_split, delta):
     answer = []
     for i in [0.1, 0.01, 0.001]:
-        a_x, a_y, path = logic.newton_method((x_input, y_input), i, delta, logic.string_to_function(function_str))
+        a_x, a_y, path, k = logic.newton_method((x_input, y_input), i, delta, logic.string_to_function(function_str))
         function = logic.string_to_function(function_str)
         answer.append([i, a_x, a_y, function(a_x, a_y)])
         print(a_x, a_y, function(a_x, a_y))
@@ -163,6 +165,7 @@ def get_newton_method_result(function_str, x_input, y_input, x_min, x_max, y_min
         plt.savefig("web/" + name, transparent=True)
         answer[-1].append(name)
         plt.close('all')
+        answer[-1].append(k)
     return answer
 
 
