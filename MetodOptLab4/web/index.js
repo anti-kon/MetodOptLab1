@@ -74,13 +74,13 @@ async function getGradientMethodResult() {
 		result.innerHTML += answer[0]
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "Ответ: ("
-		result.innerHTML += answer[1].toPrecision(1)
+		result.innerHTML += answer[1].toFixed(answer[0])
 		result.innerHTML += ", "
-		result.innerHTML += answer[2].toPrecision(1)
+		result.innerHTML += answer[2].toFixed(answer[0])
 		result.innerHTML += ")"
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "Значение: "
-		result.innerHTML += answer[3].toPrecision(1)
+		result.innerHTML += answer[3].toFixed(answer[0])
 		result.appendChild(document.createElement('br'))
 		let img1 = new Image();
 		img1.onload = function(){
@@ -177,13 +177,13 @@ async function getNewtonMethodResult() {
 		result.innerHTML += answer[0]
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "Ответ: ("
-		result.innerHTML += answer[1].toPrecision(1)
+		result.innerHTML += answer[1].toFixed(answer[0])
 		result.innerHTML += ", "
-		result.innerHTML += answer[2].toPrecision(1)
+		result.innerHTML += answer[2].toFixed(answer[0])
 		result.innerHTML += ")"
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "Значение: "
-		result.innerHTML += answer[3].toPrecision(1)
+		result.innerHTML += answer[3].toFixed(answer[0])
 		result.appendChild(document.createElement('br'))
 		let img1 = new Image();
 		img1.onload = function(){
@@ -276,13 +276,13 @@ async function getBFGSResult() {
 		result.innerHTML += answer[0]
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "Ответ: ("
-		result.innerHTML += answer[1].toPrecision(1)
+		result.innerHTML += answer[1].toFixed(answer[0])
 		result.innerHTML += ", "
-		result.innerHTML += answer[2].toPrecision(1)
+		result.innerHTML += answer[2].toFixed(answer[0])
 		result.innerHTML += ")"
 		result.appendChild(document.createElement('br'))
 		result.innerHTML += "Значение: "
-		result.innerHTML += answer[3].toPrecision(1)
+		result.innerHTML += answer[3].toFixed(answer[0])
 		result.appendChild(document.createElement('br'))
 		let img1 = new Image();
 		img1.onload = function(){

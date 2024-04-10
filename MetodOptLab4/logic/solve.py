@@ -34,9 +34,9 @@ def sqrt(a, b):
     return a ** (1 / b)
 
 
-f = "x ** 2 + 4 * (y ** 2) + 3 * x + 2 * y + 3 + x ** 4"
+f = "cos(x + y) + x ** 2 + y ** 2"
 
-# 2 + 12 x * 2  0   | (2 + 12 x^2 - l) (8 - l) = 0 (l = 8) l = 2 + 12 x^2
+# 2 + 12 x * 2  0   | (2 + 12 x^2 - l) (8) = 0 (l = 8) l = 2 + 12 x^2
 # 0 8 - l              |
 def string_to_function(expression):
     def function(x, y):
@@ -182,32 +182,32 @@ if __name__ == '__main__':
 
     a_x, a_y, path = newton_method((-1, -1), 0.001, 0.8, math_function)
     print(a_x, a_y, math_function(a_x, a_y))
-    x = np.linspace(-2, 1, 100)
-    y = np.linspace(-3, 3, 100)
-    X, Y = np.meshgrid(x, y)
-    F = math_function(X, Y)
+    # x = np.linspace(-1.5, 0.5, 100)
+    # y = np.linspace(-2, 2, 100)
+    # X, Y = np.meshgrid(x, y)
+    # print(math_function(X, Y))
+    #
+    # fig, ax = plt.subplots()
+    # ax.grid(True)
+    # for i in range(0, len(path[0]) - 1):
+    #     ax.contour(X, Y, F - math_function(path[0][i], path[1][i]), levels=[0])
+    #     plt.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]], c='r')
+    # ax.contour(X, Y, F - math_function(path[-1][0], path[-1][1]), levels=[0])
+    # ax.plot(a_x, a_y, 'ro')
+    # plt.xlabel("x")
+    # plt.ylabel("y")
+    # plt.title("Newton methods")
 
-    fig, ax = plt.subplots()
-    ax.grid(True)
-    for i in range(0, len(path[0]) - 1):
-        ax.contour(X, Y, F - math_function(path[0][i], path[1][i]), levels=[0])
-        plt.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]], c='r')
-    ax.contour(X, Y, F - math_function(path[-1][0], path[-1][1]), levels=[0])
-    ax.plot(a_x, a_y, 'ro')
-    plt.xlabel("x")
-    plt.ylabel("y")
-    plt.title("Newton methods")
-
-    fig, ax = plt.subplots()
-    error = []
-    for i in range(0, len(path[0])):
-        error.append(np.abs(np.subtract(math_function(a_x, a_y), math_function(path[0][i], path[1][i]))).sum())
-    line1, = ax.plot(range(1, len(error) + 1), error, label='Newton method')
-
+    # fig, ax = plt.subplots()
+    # # error = []
+    # # for i in range(0, len(path[0])):
+    # #     error.append(np.abs(np.subtract(math_function(a_x, a_y), math_function(path[0][i], path[1][i]))).sum())
+    # # line1, = ax.plot(range(1, len(error) + 1), error, label='Newton method')
+    # #
     a_x, a_y, path = broyden_fletcher_goldfarb_shanno_method((-1, -1), 0.001, math_function)
     print(a_x, a_y, math_function(a_x, a_y))
-    X, Y = np.meshgrid(x, y)
-    F = math_function(X, Y)
+    # X, Y = np.meshgrid(x, y)
+    # # F = math_function(X, Y)
 
     error = []
     for i in range(0, len(path[0]) - 1):
@@ -220,7 +220,8 @@ if __name__ == '__main__':
     plt.xlabel("iteration")
     plt.ylabel("error")
     plt.yscale("log")
-    plt.xlim(left = 1)
+    plt.xlim(1, 10)
+    plt.ylim(0.001)
 
     fig, ax = plt.subplots()
     ax.grid(True)
