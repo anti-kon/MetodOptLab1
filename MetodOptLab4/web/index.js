@@ -4,28 +4,137 @@ async function setCursorPosition(value) {
 	cursorPosition = value
 }
 
-async function getFibonacciMethodResult() {
+async function getGradientMethodResult() {
 	document.getElementById("loader").style.display='flex';
 	let save_formula = document.getElementById('equation_showcase').cloneNode(true);
 	save_formula.id = '';
 	save_formula.className = '';
     let equation = document.getElementById('equation').value;
-	let a = parseInt(document.getElementById('a_value').value);
-	let b = parseInt(document.getElementById('b_value').value);
+	let x = parseInt(document.getElementById('x_init').value);
+	let y = parseInt(document.getElementById('y_init').value);
+	let step = parseInt(document.getElementById('step_value').value);
+	let x_min = parseInt(document.getElementById('x_min').value);
+	let y_min = parseInt(document.getElementById('y_min').value);
+	let x_max = parseInt(document.getElementById('x_max').value);
+	let y_max = parseInt(document.getElementById('y_max').value);
+	let x_split = parseInt(document.getElementById('x_split').value);
+	let y_split = parseInt(document.getElementById('y_split').value);
+	if (equation === '' || isNaN(x) || isNaN(y) || isNaN(x_min) || isNaN(y_min) ||
+		isNaN(x_max) || isNaN(y_max) || isNaN(x_split) || isNaN(y_split)){
+		document.getElementById("loader").style.display='none';
+        return;
+    }
+	step = isNaN(step) ? 0.01 : step;
+
+    let output = document.getElementById("output");
+    let result = document.createElement('div');
+    result.className = 'result';
+	let calculations;
+	try {
+		calculations = await eel.get_gradient_method_result(equation, x, y, x_min, x_max, y_min, y_max, x_split, y_split, step)();
+		document.getElementById("loader").style.display='none';
+	} catch (e) {
+		document.getElementById("loader").style.display='none';
+		result.innerHTML += "Ошибка в входных данных";
+		output.prepend(result);
+		return
+	}
+
+	result.innerHTML += "Исходная функция:"
+	result.appendChild(document.createElement('br'))
+	result.appendChild(document.createElement('br'))
+	let z_label = document.createElement('mi')
+	z_label.innerHTML = 'z'
+	let left_bracket = document.createElement('mo')
+	left_bracket.innerHTML = '('
+	let x_inner_label = document.createElement('mi')
+	x_inner_label.innerHTML = 'x'
+	let comma_inner_label = document.createElement('mo')
+	comma_inner_label.innerHTML = ','
+	let y_inner_label = document.createElement('mi')
+	y_inner_label.innerHTML = 'y'
+	let right_bracket = document.createElement('mo')
+	right_bracket.innerHTML = ')'
+	let equate = document.createElement('mo')
+	equate.innerHTML = '='
+	save_formula.prepend(equate)
+	save_formula.prepend(right_bracket)
+	save_formula.prepend(x_inner_label)
+	save_formula.prepend(comma_inner_label)
+	save_formula.prepend(y_inner_label)
+	save_formula.prepend(left_bracket)
+	save_formula.prepend(z_label)
+	result.appendChild(save_formula)
+	result.appendChild(document.createElement('br'))
+	result.innerHTML += `Шаг: ${step}`
+	result.appendChild(document.createElement('br'))
+	console.log(calculations)
+	calculations.map(answer => {
+		result.innerHTML += "Точность: "
+		result.innerHTML += answer[0]
+		result.appendChild(document.createElement('br'))
+		result.innerHTML += "Ответ: ("
+		result.innerHTML += answer[1].toFixed(6)
+		result.innerHTML += ", "
+		result.innerHTML += answer[2].toFixed(6)
+		result.innerHTML += ")"
+		result.appendChild(document.createElement('br'))
+		result.innerHTML += "Значение: "
+		result.innerHTML += answer[3]
+		result.appendChild(document.createElement('br'))
+		let img1 = new Image();
+		img1.onload = function(){
+		  // execute drawImage statements here
+		};
+		img1.src = answer[4];
+		result.appendChild(img1);
+		result.appendChild(document.createElement('br'))
+		let img2 = new Image();
+		img2.onload = function(){
+		  // execute drawImage statements here
+		};
+		img2.src = answer[5];
+		result.appendChild(img2);
+		result.appendChild(document.createElement('br'))
+		let img3 = new Image();
+		img3.onload = function(){
+		  // execute drawImage statements here
+		};
+		img3.src = answer[6];
+		result.appendChild(img3);
+		result.appendChild(document.createElement('br'))
+	});
+	output.prepend(result);
+}
+
+async function getNewtonMethodResult() {
+	document.getElementById("loader").style.display='flex';
+	let save_formula = document.getElementById('equation_showcase').cloneNode(true);
+	save_formula.id = '';
+	save_formula.className = '';
+    let equation = document.getElementById('equation').value;
+	let x = parseInt(document.getElementById('x_init').value);
+	let y = parseInt(document.getElementById('y_init').value);
 	let delta = parseInt(document.getElementById('delta_value').value);
-	if (equation === '' || isNaN(a) || isNaN(b)){
+	let x_min = parseInt(document.getElementById('x_min').value);
+	let y_min = parseInt(document.getElementById('y_min').value);
+	let x_max = parseInt(document.getElementById('x_max').value);
+	let y_max = parseInt(document.getElementById('y_max').value);
+	let x_split = parseInt(document.getElementById('x_split').value);
+	let y_split = parseInt(document.getElementById('y_split').value);
+	if (equation === '' || isNaN(x) || isNaN(y) || isNaN(x_min) || isNaN(y_min) ||
+		isNaN(x_max) || isNaN(y_max) || isNaN(x_split) || isNaN(y_split)){
 		document.getElementById("loader").style.display='none';
         return;
     }
 	delta = isNaN(delta) ? 0.01 : delta;
-	console.log(equation, a, b, delta)
 
     let output = document.getElementById("output");
     let result = document.createElement('div');
     result.className = 'result';
 	let calculations;
 	try {
-		calculations = await eel.get_fibonacci_method_result(equation, a, b, delta)();
+		calculations = await eel.get_newton_method_result(equation, x, y, x_min, x_max, y_min, y_max, x_split, y_split, delta)();
 		document.getElementById("loader").style.display='none';
 	} catch (e) {
 		document.getElementById("loader").style.display='none';
@@ -37,57 +146,87 @@ async function getFibonacciMethodResult() {
 	result.innerHTML += "Исходная функция:"
 	result.appendChild(document.createElement('br'))
 	result.appendChild(document.createElement('br'))
-	let y_label = document.createElement('mi')
-	y_label.innerHTML = 'y'
+	let z_label = document.createElement('mi')
+	z_label.innerHTML = 'z'
 	let left_bracket = document.createElement('mo')
 	left_bracket.innerHTML = '('
+	let x_inner_label = document.createElement('mi')
+	x_inner_label.innerHTML = 'x'
+	let comma_inner_label = document.createElement('mo')
+	comma_inner_label.innerHTML = ','
 	let y_inner_label = document.createElement('mi')
-	y_inner_label.innerHTML = 'x'
+	y_inner_label.innerHTML = 'y'
 	let right_bracket = document.createElement('mo')
 	right_bracket.innerHTML = ')'
 	let equate = document.createElement('mo')
 	equate.innerHTML = '='
 	save_formula.prepend(equate)
 	save_formula.prepend(right_bracket)
+	save_formula.prepend(x_inner_label)
+	save_formula.prepend(comma_inner_label)
 	save_formula.prepend(y_inner_label)
 	save_formula.prepend(left_bracket)
-	save_formula.prepend(y_label)
+	save_formula.prepend(z_label)
 	result.appendChild(save_formula)
 	result.appendChild(document.createElement('br'))
+	result.innerHTML += `Коэффициент сжатия шага: ${delta}`
 	result.appendChild(document.createElement('br'))
+	console.log(calculations)
 	calculations.map(answer => {
 		result.innerHTML += "Точность: "
 		result.innerHTML += answer[0]
 		result.appendChild(document.createElement('br'))
-		result.innerHTML += "X = "
+		result.innerHTML += "Ответ: ("
 		result.innerHTML += answer[1].toFixed(6)
-		result.innerHTML += " ± "
-		result.innerHTML += answer[3].toFixed(6)
+		result.innerHTML += ", "
+		result.innerHTML += answer[2].toFixed(6)
+		result.innerHTML += ")"
 		result.appendChild(document.createElement('br'))
-		result.innerHTML += "Количество итераций:"
-		result.innerHTML += answer[4]
+		result.innerHTML += "Значение: "
+		result.innerHTML += answer[3]
 		result.appendChild(document.createElement('br'))
-		let img = new Image();
-		img.onload = function(){
+		let img1 = new Image();
+		img1.onload = function(){
 		  // execute drawImage statements here
 		};
-		img.src = answer[5];
-		result.appendChild(img);
+		img1.src = answer[4];
+		result.appendChild(img1);
+		result.appendChild(document.createElement('br'))
+		let img2 = new Image();
+		img2.onload = function(){
+		  // execute drawImage statements here
+		};
+		img2.src = answer[5];
+		result.appendChild(img2);
+		result.appendChild(document.createElement('br'))
+		let img3 = new Image();
+		img3.onload = function(){
+		  // execute drawImage statements here
+		};
+		img3.src = answer[6];
+		result.appendChild(img3);
 		result.appendChild(document.createElement('br'))
 	});
-
 	output.prepend(result);
 }
 
-async function getGoldenRatioMethodResult() {
+
+async function getBFGSResult() {
 	document.getElementById("loader").style.display='flex';
 	let save_formula = document.getElementById('equation_showcase').cloneNode(true);
 	save_formula.id = '';
 	save_formula.className = '';
     let equation = document.getElementById('equation').value;
-	let a = parseInt(document.getElementById('a_value').value);
-	let b = parseInt(document.getElementById('b_value').value);
-	if (equation === '' || isNaN(a) || isNaN(b)){
+	let x = parseInt(document.getElementById('x_init').value);
+	let y = parseInt(document.getElementById('y_init').value);
+	let x_min = parseInt(document.getElementById('x_min').value);
+	let y_min = parseInt(document.getElementById('y_min').value);
+	let x_max = parseInt(document.getElementById('x_max').value);
+	let y_max = parseInt(document.getElementById('y_max').value);
+	let x_split = parseInt(document.getElementById('x_split').value);
+	let y_split = parseInt(document.getElementById('y_split').value);
+	if (equation === '' || isNaN(x) || isNaN(y) || isNaN(x_min) || isNaN(y_min) ||
+		isNaN(x_max) || isNaN(y_max) || isNaN(x_split) || isNaN(y_split)){
 		document.getElementById("loader").style.display='none';
         return;
     }
@@ -97,7 +236,7 @@ async function getGoldenRatioMethodResult() {
     result.className = 'result';
 	let calculations;
 	try {
-		calculations = await eel.get_golden_ratio_method_result(equation, a, b)();
+		calculations = await eel.get_broyden_fletcher_goldfarb_shanno_method_result(equation, x, y, x_min, x_max, y_min, y_max, x_split, y_split)();
 		document.getElementById("loader").style.display='none';
 	} catch (e) {
 		document.getElementById("loader").style.display='none';
@@ -105,50 +244,71 @@ async function getGoldenRatioMethodResult() {
 		output.prepend(result);
 		return
 	}
+
 	result.innerHTML += "Исходная функция:"
 	result.appendChild(document.createElement('br'))
 	result.appendChild(document.createElement('br'))
-	let y_label = document.createElement('mi')
-	y_label.innerHTML = 'y'
+	let z_label = document.createElement('mi')
+	z_label.innerHTML = 'z'
 	let left_bracket = document.createElement('mo')
 	left_bracket.innerHTML = '('
+	let x_inner_label = document.createElement('mi')
+	x_inner_label.innerHTML = 'x'
+	let comma_inner_label = document.createElement('mo')
+	comma_inner_label.innerHTML = ','
 	let y_inner_label = document.createElement('mi')
-	y_inner_label.innerHTML = 'x'
+	y_inner_label.innerHTML = 'y'
 	let right_bracket = document.createElement('mo')
 	right_bracket.innerHTML = ')'
 	let equate = document.createElement('mo')
 	equate.innerHTML = '='
 	save_formula.prepend(equate)
 	save_formula.prepend(right_bracket)
+	save_formula.prepend(x_inner_label)
+	save_formula.prepend(comma_inner_label)
 	save_formula.prepend(y_inner_label)
 	save_formula.prepend(left_bracket)
-	save_formula.prepend(y_label)
+	save_formula.prepend(z_label)
 	result.appendChild(save_formula)
 	result.appendChild(document.createElement('br'))
-	result.appendChild(document.createElement('br'))
+	console.log(calculations)
 	calculations.map(answer => {
 		result.innerHTML += "Точность: "
 		result.innerHTML += answer[0]
 		result.appendChild(document.createElement('br'))
-		result.innerHTML += "X = "
+		result.innerHTML += "Ответ: ("
 		result.innerHTML += answer[1].toFixed(6)
-		result.innerHTML += " ± "
-		result.innerHTML += answer[3].toFixed(6)
+		result.innerHTML += ", "
+		result.innerHTML += answer[2].toFixed(6)
+		result.innerHTML += ")"
 		result.appendChild(document.createElement('br'))
-		result.innerHTML += "Количество итераций:"
-		result.innerHTML += answer[4]
+		result.innerHTML += "Значение: "
+		result.innerHTML += answer[3]
 		result.appendChild(document.createElement('br'))
-		let img = new Image();
-		img.onload = function(){
+		let img1 = new Image();
+		img1.onload = function(){
 		  // execute drawImage statements here
 		};
-		img.src = answer[5];
-		result.appendChild(img);
+		img1.src = answer[4];
+		result.appendChild(img1);
 		result.appendChild(document.createElement('br'))
-	});
-
-	output.prepend(result);
+		let img2 = new Image();
+		img2.onload = function(){
+		  // execute drawImage statements here
+		};
+		img2.src = answer[5];
+		result.appendChild(img2);
+		result.appendChild(document.createElement('br'))
+		let img3 = new Image();
+		img3.onload = function(){
+		  // execute drawImage statements here
+		};
+		img3.src = answer[6];
+		result.appendChild(img3);
+		result.appendChild(document.createElement('br'))
+	});	output.prepend(result);
 }
+
 
 async function buttonClick(data, move) {
 	let text = document.getElementById('equation').value;

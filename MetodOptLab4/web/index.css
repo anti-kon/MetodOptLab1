@@ -95,11 +95,11 @@ html {
     font-weight: 500;
     grid-template-columns: repeat(4, max-content);
     line-height: 18px;
-    height: 80px;
     justify-content: center;
     align-items: center;
     grid-column-gap: 10px;
     margin-top: 5px;
+    height: max-content;
 }
 
 .calculator-input input {
@@ -122,6 +122,7 @@ html {
     color: #3b3b3b;
     font-family: "Oswald", sans-serif;
     font-weight: 500;
+    margin-top: 10px;
 }
 
 .row input::-webkit-outer-spin-button,
@@ -305,4 +306,13 @@ html {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+.double {
+    grid-column: span 2;
+    margin-top: 5px;
+}
+
+.double + input {
+    width: 100%;
 }

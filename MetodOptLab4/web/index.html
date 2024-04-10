@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width">
@@ -101,22 +100,61 @@
                             <msub><mi>y</mi><mi>0</mi></msub></mrow>
                         </math>
                     </label>
-                    <label for="epsilon_value">
-                        ε
+                    <label for="step_value">
+                        <div class="delta_label">
+                            <label>α</label>
+                           <label class="small_text">(для градиентного метода)</label>
+                        </div>
                     </label>
                     <label for="delta_value">
                         <div class="delta_label">
-                            <label>шаг</label>
-                           <label class="small_text">(для метода градиентов)</label>
+                            <label>δ</label>
+                           <label class="small_text">(для метода Ньютона)</label>
                         </div>
                     </label>
                     <input type="number" id="x_init" name="x_init"/>
                     <input type="number" id="y_init" name="y_init"/>
-                    <input type="number" id="epsilon_value" name="epsilon_value" placeholder="0.01"/>
+                    <input type="number" id="step_value" name="step_value" placeholder="0.01"/>
                     <input type="number" id="delta_value" name="delta_value" placeholder="0.01"/>
+                    <label for="x_min">
+                        <math><mrow>
+                            <msub><mi>x</mi><mi>min</mi></msub></mrow>
+                        </math>
+                    </label>
+                    <label for="x_max">
+                        <math><mrow>
+                            <msub><mi>x</mi><mi>max</mi></msub></mrow>
+                        </math>
+                    </label>
+                    <label for="x_min">
+                        <math><mrow>
+                            <msub><mi>y</mi><mi>min</mi></msub></mrow>
+                        </math>
+                    </label>
+                    <label for="x_max">
+                        <math><mrow>
+                            <msub><mi>y</mi><mi>max</mi></msub></mrow>
+                        </math>
+                    </label>
+                    <input type="number" id="x_min" name="x_min"/>
+                    <input type="number" id="x_max" name="x_max"/>
+                    <input type="number" id="y_min" name="y_min"/>
+                    <input type="number" id="y_max" name="y_max"/>
+                    <label class="double" for="x_split">
+                        <math><mrow>
+                            <msub><mi>x</mi><mi>split</mi></msub></mrow>
+                        </math>
+                    </label>
+                    <label class="double" for="y_split">
+                        <math><mrow>
+                            <msub><mi>y</mi><mi>split</mi></msub></mrow>
+                        </math>
+                    </label>
+                    <input class="double" type="number" id="x_split" name="x_split"/>
+                    <input class="double" type="number" id="y_split" name="y_split"/>
                 </div>
                 <div class="result-buttons-block">
-                    <button class="calculator-buttons" onclick="getGradientMethodResult()">Метод градиентов</button>
+                    <button class="calculator-buttons" onclick="getGradientMethodResult()">Градиентный метод</button>
                     <button class="calculator-buttons" onclick="getNewtonMethodResult()">Метод Ньютона</button>
                     <button class="calculator-buttons" onclick="getBFGSResult()">Метод BFGS</button>
                 </div>

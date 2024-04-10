@@ -2,49 +2,168 @@ import time
 import eel
 import numpy as np
 import matplotlib.pyplot as plt
+import logic.solve as logic
+@eel.expose
+def get_gradient_method_result(function_str, x_input, y_input, x_min, x_max, y_min, y_max, x_split, y_split, step):
+    answer = []
+    for i in [0.1, 0.01, 0.001]:
+        a_x, a_y, path = logic.gradient_method(x_input, y_input, i, step, logic.string_to_function(function_str))
+        function = logic.string_to_function(function_str)
+        answer.append([i, a_x, a_y, function(a_x, a_y)])
+        print(a_x, a_y, function(a_x, a_y))
+        x = np.linspace(x_min, x_max, x_split)
+        y = np.linspace(y_min, y_max, y_split)
+        X, Y = np.meshgrid(x, y)
+        F = function(X, Y)
+
+        fig, ax = plt.subplots()
+        plt.grid(True)
+        for i in range(0, len(path[0]) - 1):
+            ax.contour(X, Y, F - function(path[0][i], path[1][i]), levels=[0])
+            plt.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]], c='r')
+        ax.contour(X, Y, F - function(path[-1][0], path[-1][1]), levels=[0])
+        ax.plot(a_x, a_y, 'ro')
+        plt.xlabel("x")
+        plt.ylabel("y")
+        name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
+        plt.savefig("web/" + name, transparent=True)
+        answer[-1].append(name)
+
+        ax = plt.figure().add_subplot(111, projection='3d')
+        ax.scatter(a_x, a_y, function(a_x, a_y), color='red')
+        ax.plot_surface(X, Y, F, rstride=5, cstride=5, alpha=0.7)
+        for i in range(0, len(path[0]) - 1):
+            ax.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]],
+                    [function(path[0][i], path[1][i]),
+                     function(path[0][i + 1], path[1][i + 1])], c='r')
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.set_zlabel("z")
+        name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
+        plt.savefig("web/" + name, transparent=True)
+        answer[-1].append(name)
+
+        fig, ax = plt.subplots()
+        error = []
+        plt.grid(True)
+        for i in range(0, len(path[0])):
+            error.append(abs(function(a_x, a_y) - function(path[0][i], path[1][i])))
+        ax.plot(range(1, len(error) + 1), error)
+        plt.xlabel("iteration")
+        plt.ylabel("error")
+        name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
+        plt.savefig("web/" + name, transparent=True)
+        answer[-1].append(name)
+        plt.close('all')
+    return answer
 
 @eel.expose
-def get_fibonacci_method_result(function, a, b, delta):
-    # answer = []
-    # for i in [0.1, 0.01, 0.001]:
-    #     print(logic.fibonacciMethod(a, b, i, delta, logic.string_to_function(function)))
-    #     x_p, R, d, S = logic.fibonacciMethod(a, b, i, delta, logic.string_to_function(function))
-    #     answer.append([i, x_p, R, d, S])
-    #     x = np.arange(a, b, 0.01)
-    #     plt.clf()
-    #     plt.xlabel("x")
-    #     plt.ylabel("y")
-    #     y = [logic.string_to_function(function)(element) for element in x]
-    #     plt.plot(x, y)
-    #     plt.errorbar(x_p, R, xerr= d, marker='o', linestyle='none',
-    #     ecolor='k', elinewidth=0.8, capsize=4, capthick=1)
-    #     plt.grid()
-    #     name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
-    #     plt.savefig("web/" + name, transparent=True)
-    #     answer[-1].append(name)
-    #     print(answer)
-    return 0
+def get_broyden_fletcher_goldfarb_shanno_method_result(function_str, x_input, y_input, x_min, x_max, y_min, y_max, x_split, y_split):
+    answer = []
+    for i in [0.1, 0.01, 0.001]:
+        a_x, a_y, path = logic.broyden_fletcher_goldfarb_shanno_method((x_input, y_input), i, logic.string_to_function(function_str))
+        function = logic.string_to_function(function_str)
+        answer.append([i, a_x, a_y, function(a_x, a_y)])
+        print(a_x, a_y, function(a_x, a_y))
+        x = np.linspace(x_min, x_max, x_split)
+        y = np.linspace(y_min, y_max, y_split)
+        X, Y = np.meshgrid(x, y)
+        F = function(X, Y)
+
+        fig, ax = plt.subplots()
+        plt.grid(True)
+        for i in range(0, len(path[0]) - 1):
+            ax.contour(X, Y, F - function(path[0][i], path[1][i]), levels=[0])
+            plt.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]], c='r')
+        ax.contour(X, Y, F - function(path[-1][0], path[-1][1]), levels=[0])
+        ax.plot(a_x, a_y, 'ro')
+        plt.xlabel("x")
+        plt.ylabel("y")
+        name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
+        plt.savefig("web/" + name, transparent=True)
+        answer[-1].append(name)
+
+        ax = plt.figure().add_subplot(111, projection='3d')
+        ax.scatter(a_x, a_y, function(a_x, a_y), color='red')
+        ax.plot_surface(X, Y, F, rstride=5, cstride=5, alpha=0.7)
+        for i in range(0, len(path[0]) - 1):
+            ax.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]],
+                    [function(path[0][i], path[1][i]),
+                     function(path[0][i + 1], path[1][i + 1])], c='r')
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.set_zlabel("z")
+        name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
+        plt.savefig("web/" + name, transparent=True)
+        answer[-1].append(name)
+
+        fig, ax = plt.subplots()
+        error = []
+        plt.grid(True)
+        for i in range(0, len(path[0])):
+            error.append(abs(function(a_x, a_y) - function(path[0][i], path[1][i])))
+        ax.plot(range(1, len(error) + 1), error)
+        plt.xlabel("iteration")
+        plt.ylabel("error")
+        name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
+        plt.savefig("web/" + name, transparent=True)
+        answer[-1].append(name)
+        plt.close('all')
+    return answer
 
 @eel.expose
-def get_golden_ratio_method_result(function, a, b):
-    # answer = []
-    # for i in [0.1, 0.01, 0.001]:
-    #     x_p, R, d = logic.golden_ratio(a, b, i, logic.string_to_function(function))
-    #     answer.append([i, x_p, R, d, logic.count_of_calls])
-    #     x = np.arange(a, b, 0.01)
-    #     plt.clf()
-    #     plt.xlabel("x")
-    #     plt.ylabel("y")
-    #     y = [logic.string_to_function(function)(element) for element in x]
-    #     plt.plot(x, y)
-    #     plt.errorbar(x_p, R, xerr=d, marker='o', linestyle='none',
-    #     ecolor='k', elinewidth=0.8, capsize=4, capthick=1)
-    #     plt.grid()
-    #     name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
-    #     plt.savefig("web/" + name, transparent=True)
-    #     answer[-1].append(name)
-    #     print(answer)
-    return 0
+def get_newton_method_result(function_str, x_input, y_input, x_min, x_max, y_min, y_max, x_split, y_split, delta):
+    answer = []
+    for i in [0.1, 0.01, 0.001]:
+        a_x, a_y, path = logic.newton_method((x_input, y_input), i, delta, logic.string_to_function(function_str))
+        function = logic.string_to_function(function_str)
+        answer.append([i, a_x, a_y, function(a_x, a_y)])
+        print(a_x, a_y, function(a_x, a_y))
+        x = np.linspace(x_min, x_max, x_split)
+        y = np.linspace(y_min, y_max, y_split)
+        X, Y = np.meshgrid(x, y)
+        F = function(X, Y)
+
+        fig, ax = plt.subplots()
+        plt.grid(True)
+        for i in range(0, len(path[0]) - 1):
+            ax.contour(X, Y, F - function(path[0][i], path[1][i]), levels=[0])
+            plt.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]], c='r')
+        ax.contour(X, Y, F - function(path[-1][0], path[-1][1]), levels=[0])
+        ax.plot(a_x, a_y, 'ro')
+        plt.xlabel("x")
+        plt.ylabel("y")
+        name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
+        plt.savefig("web/" + name, transparent=True)
+        answer[-1].append(name)
+
+        ax = plt.figure().add_subplot(111, projection='3d')
+        ax.scatter(a_x, a_y, function(a_x, a_y), color='red')
+        ax.plot_surface(X, Y, F, rstride=5, cstride=5, alpha=0.7)
+        for i in range(0, len(path[0]) - 1):
+            ax.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]],
+                    [function(path[0][i], path[1][i]),
+                     function(path[0][i + 1], path[1][i + 1])], c='r')
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.set_zlabel("z")
+        name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
+        plt.savefig("web/" + name, transparent=True)
+        answer[-1].append(name)
+
+        fig, ax = plt.subplots()
+        error = []
+        plt.grid(True)
+        for i in range(0, len(path[0])):
+            error.append(abs(function(a_x, a_y) - function(path[0][i], path[1][i])))
+        ax.plot(range(1, len(error) + 1), error)
+        plt.xlabel("iteration")
+        plt.ylabel("error")
+        name = "image/image" + str(i) + "_" + str(time.time()) + ".png"
+        plt.savefig("web/" + name, transparent=True)
+        answer[-1].append(name)
+        plt.close('all')
+    return answer
 
 
 eel.init('web')
