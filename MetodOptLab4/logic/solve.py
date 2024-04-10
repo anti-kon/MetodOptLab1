@@ -34,7 +34,7 @@ def sqrt(a, b):
     return a ** (1 / b)
 
 
-f = "(x**2)+4*(y**2)+3*x+2*y"
+f = "x ** 2 + 4 * (y ** 2) + 3 * x + 2 * y + x ** 4"
 
 
 def string_to_function(expression):
@@ -114,10 +114,9 @@ def newton_method(init_x, epsilon, delta, function):
         hessian = np.linalg.inv(hessian)
         x_old_value = x
 
-        x = x - step * (np.matmul(hessian, gradient_value))  # x k = x(k-1) - ak * Hk^-1 * G(k-1)
+        x = x - step*(np.matmul(hessian, gradient_value))  # x k = x(k-1) - ak * Hk^-1 * G(k-1)
 
         if is_not_improved(gradient(x_old_value[0][0], x_old_value[1][0], epsilon, function),
-                           # || \/ f (xk) - \/ f(xk-1) || < epsilon
                            gradient(x[0][0], x[1][0], epsilon, function), epsilon):
             break
 
@@ -125,7 +124,7 @@ def newton_method(init_x, epsilon, delta, function):
         path[1].append(x[1][0])
 
         while (function(x[0][0], x[1][0]) - function(x_old_value[0][0], x_old_value[1][0]) >
-               -(0.5 * step * pow(np.abs(gradient(x_old_value[0][0], x_old_value[1][0], epsilon, function)).sum(), 2))):
+               -(0.1 * step * pow(np.abs(gradient(x_old_value[0][0], x_old_value[1][0], epsilon, function)).sum(), 2))):
             step *= delta
 
     return path[0][-1], path[1][-1], path
@@ -180,54 +179,57 @@ def is_not_improved(x_prev, x, epsilon):
 if __name__ == '__main__':
     math_function = string_to_function(f)
 
-    a_x, a_y, path = newton_method((2, 2), 0.001, 0.9, math_function)
+    a_x, a_y, path = newton_method((-2, -2), 0.001, 0.9, math_function)
     print(a_x, a_y, math_function(a_x, a_y))
-    x = np.linspace(-4, 1, 100)
-    y = np.linspace(-2, 2, 100)
+    x = np.linspace(-5, 5, 100)
+    y = np.linspace(-3, 20, 100)
     X, Y = np.meshgrid(x, y)
     F = math_function(X, Y)
 
-    ax = plt.figure().add_subplot(111, projection='3d')
-    ax.scatter(a_x, a_y, math_function(a_x, a_y), color='red')
-    ax.plot_surface(X, Y, F, rstride=5, cstride=5, alpha=0.7)
+    fig, ax = plt.subplots()
+    ax.grid(True)
     for i in range(0, len(path[0]) - 1):
-        ax.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]],
-                [math_function(path[0][i], path[1][i]),
-                 math_function(path[0][i + 1], path[1][i + 1])], c='r')
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.set_zlabel("z")
+        ax.contour(X, Y, F - math_function(path[0][i], path[1][i]), levels=[0])
+        plt.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]], c='r')
+    ax.contour(X, Y, F - math_function(path[-1][0], path[-1][1]), levels=[0])
+    ax.plot(a_x, a_y, 'ro')
+    plt.xlabel("x")
+    plt.ylabel("y")
 
     fig, ax = plt.subplots()
     error = []
     for i in range(0, len(path[0])):
-        error.append(abs(math_function(a_x, a_y) - math_function(path[0][i], path[1][i])))
+        error.append(np.abs(np.subtract(math_function(a_x, a_y), math_function(path[0][i], path[1][i]))).sum())
     line1, = ax.plot(range(1, len(error) + 1), error, label='Newton method')
 
-    a_x, a_y, path = broyden_fletcher_goldfarb_shanno_method((2, 2), 0.001, math_function)
+    a_x, a_y, path = broyden_fletcher_goldfarb_shanno_method((-2, -2), 0.001, math_function)
     print(a_x, a_y, math_function(a_x, a_y))
     X, Y = np.meshgrid(x, y)
     F = math_function(X, Y)
 
     error = []
-    for i in range(0, len(path[0])):
-        error.append(abs(math_function(a_x, a_y) - math_function(path[0][i], path[1][i])))
+    for i in range(0, len(path[0]) - 1):
+        error.append(np.abs(np.subtract(math_function(a_x, a_y), math_function(path[0][i], path[1][i]))).sum())
     line2, = ax.plot(range(1, len(error) + 1), error, label='BFGS method')
 
+    ax.grid(True)
     plt.title("Comparison of the convergence rate of Newton and BFGS methods")
     ax.legend(handles=[line1, line2])
     plt.xlabel("iteration")
     plt.ylabel("error")
+    plt.yscale("log")
+    plt.xlim(left = 1)
 
-    ax = plt.figure().add_subplot(111, projection='3d')
-    ax.scatter(a_x, a_y, math_function(a_x, a_y), color='red')
-    ax.plot_surface(X, Y, F, rstride=5, cstride=5, alpha=0.7)
+    fig, ax = plt.subplots()
+    ax.grid(True)
     for i in range(0, len(path[0]) - 1):
-        ax.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]],
-                [math_function(path[0][i], path[1][i]),
-                 math_function(path[0][i + 1], path[1][i + 1])], c='r')
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
-    ax.set_zlabel("z")
+        ax.contour(X, Y, F - math_function(path[0][i], path[1][i]), levels=[0])
+        plt.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]], c='r')
+    ax.contour(X, Y, F - math_function(path[-1][0], path[-1][1]), levels=[0])
+    ax.plot(a_x, a_y, 'ro')
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.title("BFGS methods")
+
 
     plt.show()
