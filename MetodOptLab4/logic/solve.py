@@ -2,15 +2,15 @@ import matplotlib.pyplot as plt
 from scipy.optimize import line_search
 import numpy as np
 import math
-from math import cos
-from math import sin
-from math import tan
+from numpy import cos
+from numpy import sin
+from numpy import tan
 from math import acos
 from math import asin
 from math import atan
-from math import e
-from math import log
-from math import pi
+from numpy import e
+from numpy import log
+from numpy import pi
 from math import gamma
 
 
@@ -184,34 +184,35 @@ def is_not_improved(x_prev, x, epsilon):
 if __name__ == '__main__':
     math_function = string_to_function(f)
 
-    a_x, a_y, path = newton_method((-1, -1), 0.001, 0.8, math_function)
+    a_x, a_y, path, k = newton_method((-1, -1), 0.001, 0.8, math_function)
     print(a_x, a_y, math_function(a_x, a_y))
-    # x = np.linspace(-1.5, 0.5, 100)
-    # y = np.linspace(-2, 2, 100)
-    # X, Y = np.meshgrid(x, y)
-    # print(math_function(X, Y))
-    #
-    # fig, ax = plt.subplots()
-    # ax.grid(True)
-    # for i in range(0, len(path[0]) - 1):
-    #     ax.contour(X, Y, F - math_function(path[0][i], path[1][i]), levels=[0])
-    #     plt.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]], c='r')
-    # ax.contour(X, Y, F - math_function(path[-1][0], path[-1][1]), levels=[0])
-    # ax.plot(a_x, a_y, 'ro')
-    # plt.xlabel("x")
-    # plt.ylabel("y")
-    # plt.title("Newton methods")
+    x = np.linspace(-1.5, 0.5, 100)
+    y = np.linspace(-2, 2, 100)
+    X, Y = np.meshgrid(x, y)
+    F = cos(X + Y)
+    print(math_function(X, Y))
 
-    # fig, ax = plt.subplots()
-    # # error = []
-    # # for i in range(0, len(path[0])):
-    # #     error.append(np.abs(np.subtract(math_function(a_x, a_y), math_function(path[0][i], path[1][i]))).sum())
-    # # line1, = ax.plot(range(1, len(error) + 1), error, label='Newton method')
-    # #
-    a_x, a_y, path = broyden_fletcher_goldfarb_shanno_method((-1, -1), 0.001, math_function)
+    fig, ax = plt.subplots()
+    ax.grid(True)
+    for i in range(0, len(path[0]) - 1):
+        ax.contour(X, Y, F - math_function(path[0][i], path[1][i]), levels=[0])
+        plt.plot([path[0][i], path[0][i + 1]], [path[1][i], path[1][i + 1]], c='r')
+    ax.contour(X, Y, F - math_function(path[-1][0], path[-1][1]), levels=[0])
+    ax.plot(a_x, a_y, 'ro')
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.title("Newton methods")
+
+    fig, ax = plt.subplots()
+    error = []
+    for i in range(0, len(path[0])):
+        error.append(np.abs(np.subtract(math_function(a_x, a_y), math_function(path[0][i], path[1][i]))).sum())
+    line1, = ax.plot(range(1, len(error) + 1), error, label='Newton method')
+
+    a_x, a_y, path, k = broyden_fletcher_goldfarb_shanno_method((-1, -1), 0.001, math_function)
     print(a_x, a_y, math_function(a_x, a_y))
-    # X, Y = np.meshgrid(x, y)
-    # # F = math_function(X, Y)
+    X, Y = np.meshgrid(x, y)
+    F = math_function(X, Y)
 
     error = []
     for i in range(0, len(path[0]) - 1):
