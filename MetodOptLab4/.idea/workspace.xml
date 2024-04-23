@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f9e9643b-d4f1-4cb5-8bd1-ba702760e92e" name="Changes" comment="Metod 4">
+      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/.idea/MetodOptLab5.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/.idea/web.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MetodOptLab1/web/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../MetodOptLab1/web/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MetodOptLab1/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../MetodOptLab1/web/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MetodOptLab1/web/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MetodOptLab1/web/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2ej8DxxvEroI5fQ5eXb10j84gfk" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;Z:/Projects/MetodOptLab1/MetodOptLab4&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;python.debugger.dataview.coloredbydefault&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="Z:\Projects\MetodOptLab1\MetodOptLab4" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="Z:\Projects\MetodOptLab1\MetodOptLab4\logic" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="logic" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="MetodOptLab4" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="Z:\Projects\MetodOptLab1\MetodOptLab4\logic\logic.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MetodOptLab4" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="solve" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="MetodOptLab4" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="Z:\Projects\MetodOptLab1\MetodOptLab4\logic\solve.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="solve" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MetodOptLab4" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/logic" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="Z:\Projects\MetodOptLab1\MetodOptLab4\logic\solve.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.solve" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f9e9643b-d4f1-4cb5-8bd1-ba702760e92e" name="Changes" comment="" />
+      <created>1712406510544</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712406510544</updated>
+      <workItem from="1712406520536" duration="9640000" />
+      <workItem from="1712425699054" duration="19000" />
+      <workItem from="1712588264404" duration="1058000" />
+      <workItem from="1712663777713" duration="6919000" />
+      <workItem from="1712676873640" duration="54412000" />
+      <workItem from="1713693880264" duration="1867000" />
+      <workItem from="1713800451745" duration="305000" />
+      <workItem from="1713871563968" duration="6499000" />
+    </task>
+    <task id="LOCAL-00001" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712680436785</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1712680436785</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712682503323</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1712682503323</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712682618661</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1712682618661</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712685497274</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1712685497274</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712712093438</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1712712093438</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712712688769</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1712712688769</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712731875319</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1712731875319</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712739413024</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1712739413024</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712741646859</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1712741646859</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712743512872</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1712743512872</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712744563651</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1712744563651</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712748358036</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1712748358036</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712749337779</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1712749337779</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712750227113</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1712750227113</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Metod 4">
+      <option name="closed" value="true" />
+      <created>1712751380012</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1712751380012</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Metod 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Metod 4" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/logic/solve.py</url>
+          <line>161</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/logic/solve.py</url>
+          <line>142</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/MetodOptLab4$logic__1_.coverage" NAME="solve Coverage Results" MODIFIED="1712751369205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/logic" />
+    <SUITE FILE_PATH="coverage/MetodOptLab4$main.coverage" NAME="main Coverage Results" MODIFIED="1712751505553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

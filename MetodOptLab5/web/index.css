@@ -58,16 +58,15 @@ html {
     color: #3b3b3b;
     font-family: "Oswald", sans-serif;
     font-weight: 500;
-    width: max-content;
     margin: auto;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .inputMatrix select {
     width: 40px;
     margin: 5px;
-    background: none;
     border: solid 2px #DAA06D;
     border-radius: 5px;
     text-align: center;
@@ -84,10 +83,59 @@ html {
     align-items: center;
 }
 
-.inputMatrix input {
+.equation-showcase {
+    text-align: center;
+    grid-column-start: 1;
+    grid-column-end: 9;
+    min-height: 80px;
+    background: #694c35;
+    height: max-content;
+    padding: 10px;
+    border-radius: 10px;
+    color: #faeacd;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator-body {
+    color: #3b3b3b;
+    padding: 1em;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    border: 2px dashed #DAA06D;
+    border-radius: 15px;
+    background-color: #EADDCA;
+    box-shadow: 0 0 0 4px #EADDCA, 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+    transition: .1s ease-in-out, .4s color;
+    align-items: center;
+    width: max-content;
+    margin: auto;
+}
+
+.calculator-buttons {
+    background: #b68962;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    margin: 10px auto 2px auto;
+    color: wheat;
+    border-radius: 10px;
+    width: 342px;
+    border: none;
+}
+
+.inputMatrix input[type=number] {
     width: 40px;
     margin: 5px;
-    background: none;
     border: solid 2px #DAA06D;
     border-radius: 5px;
     text-align: center;
@@ -122,7 +170,10 @@ html {
 .headBlock {
     width: max-content;
     height: max-content;
-    margin: 10px auto 0 auto;
+    margin: 10px auto 15px auto;
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 20px;
 }
 
 .mainButton {
@@ -145,11 +196,10 @@ html {
 }
 
 .buttonsRow {
-    display: grid;
-    grid-template-columns: repeat(2, max-content);
+    display: flex;
     margin: auto;
     align-items: center;
-    width: max-content;
+    max-width: 100%;
     grid-column-gap: 40px;
 }
 
@@ -284,4 +334,17 @@ html {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+.equation-input {
+    border: solid 2px #DAA06D;
+    border-radius: 5px;
+    text-align: center;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    width: 100%;
 }

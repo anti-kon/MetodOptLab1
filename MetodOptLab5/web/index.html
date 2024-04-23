@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <title>Optimization Methods Laboratory Work No. 5</title>
+    <link rel="stylesheet" href="index.css">
+    <script>
+    MathJax = {
+        startup: {
+            ready: function () {
+                MathJax.startup.defaultReady();
+                const toMML = MathJax.startup.toMML;
+
+                MathJax.startup.output.postFilters.add((args) => {
+                  const math = args.math, node = args.data;
+                  const original = (math.math ? math.math :
+                                    math.inputJax.processStrings ? '' : math.start.node.outerHTML);
+                  node.setAttribute('data-original', original);
+                  node.setAttribute('data-mathml', toMML(math.root).replace(/\n\s*/g, ''));
+                });
+            }
+        }
+    };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML"></script>
+</head>
+<body>
+    <math>
+        <mo style="grid-row: 1 / 6; min-height: 100%">{</mo>
+        <mtable>
+            <mrow style="margin-bottom: 4px; margin-top: 4px">
+                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
+            </mrow>
+            <mrow style="margin-bottom: 4px; margin-top: 4px">
+                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
+            </mrow>
+            <mrow style="margin-bottom: 4px; margin-top: 4px">
+                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
+            </mrow>
+            <mrow style="margin-bottom: 4px; margin-top: 4px">
+                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
+            </mrow>
+            <mrow style="margin-bottom: 4px; margin-top: 4px">
+                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
+            </mrow>
+        </mtable>
+    </math>
+    <div class="calculator">
+        <div class="headBlock">
+            <div class="blockDesign">
+                <div class="configPanel">
+                    <div>
+                        <label for="variables_num">Количество переменных:</label>
+                        <input type="number" id="variables_num" name="variables_num"
+                               min="1" max="50" placeholder="max 50" onchange="addRelationshipsMatrix()"/>
+                    </div>
+                    <div>
+                        <label for="restrictions_num">Количество ограничений:</label>
+                        <input type="number" id="restrictions_num" name="restrictions_num"
+                               min="1" max="20" placeholder="max 20" onchange="addRelationshipsMatrix()"/>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label for="file_input" class="mainButton">Загрузить из файла</label>
+                <input type="file" id="file_input" name="input_file" accept="text/plain" onchange="handleFileLoad()"/>
+                <p class="content"></p>
+            </div>
+        </div>
+        <div id="calculator_body" class="calculator-body" hidden>
+            <div id="inputField" style="width: max-content; margin: auto"></div>
+            <button class="calculator-buttons">Вычислить методом возможных направлений Зойтендейка</button>
+        </div>
+        <div id="output"></div>
+    </div>
+</body>
+
+<script type="text/javascript" src="/eel.js"></script>
+<script src="index.js"></script>
+
+</html>

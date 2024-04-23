@@ -32,6 +32,19 @@ async function handleFileLoad(event) {
     }
 }
 
+async function createEquationInput(elementId) {
+    let functionEquation = document.createElement('input');
+    functionEquation.id = elementId;
+    functionEquation.type = "type";
+    functionEquation.autocapitalize = "off";
+    functionEquation.spellcheck = false;
+    functionEquation.onchange = 'parse()';
+    functionEquation.onkeydown = 'parse()';
+    functionEquation.onblur = "setCursorPosition(document.getElementById('equation').selectionEnd)";
+    functionEquation.className="equation-input";
+    return functionEquation;
+}
+
 async function addRelationshipsMatrix() {
     let variablesNum = parseInt(document.getElementById('variables_num').value);
     let restrictionsNum = parseInt(document.getElementById('restrictions_num').value);
@@ -40,73 +53,42 @@ async function addRelationshipsMatrix() {
         return;
     }
 
+    document.getElementById('calculator_body').hidden = false;
+
     let container = document.getElementById('inputField');
 
     while (container.hasChildNodes())
         container.removeChild(container.lastChild);
 
+    let inputShowcase = document.createElement('math');
+    inputShowcase.id = 'equation_showcase';
+    inputShowcase.className = 'equation-showcase';
+    container.appendChild(inputShowcase);
+
     let functionInput = document.createElement('div');
+
     let functionName = document.createElement('span');
     functionName.innerHTML='F(x)';
     functionName.style.paddingRight='5px';
     functionInput.appendChild(functionName);
     functionInput.innerHTML += "=";
     functionInput.style.marginBottom = '10px';
-
     functionInput.className='inputMatrix';
-    functionInput.style.gridTemplateColumns = `repeat(${2 * variablesNum + 1}, max-content)`
+    functionInput.style.gridTemplateColumns = `max-content max-content 1fr`;
+
+
+    functionInput.appendChild(await createEquationInput("functionEquation"));
+
     container.appendChild(functionInput);
-
-    for (let variable_index = 0; variable_index < variablesNum; variable_index++) {
-        let matrixCell = document.createElement('div');
-        matrixCell.style.width='max-content';
-        matrixCell.style.paddingRight='5px';
-
-        let matrixCellInput = document.createElement('input');
-        matrixCellInput.type = 'number';
-        matrixCellInput.step = 'any';
-        matrixCellInput.id = `function${variable_index}Input`;
-        matrixCellInput.placeholder='0';
-        matrixCell.appendChild(matrixCellInput);
-
-        matrixCell.innerHTML += `x${(variable_index + 1)}`;
-        functionInput.appendChild(matrixCell);
-
-        if (variable_index < variablesNum - 1) {
-            let operatorCell = document.createElement('div');
-            operatorCell.innerHTML = '+';
-            functionInput.appendChild(operatorCell);
-        }
-    }
 
     let matrixInput = document.createElement('div');
     matrixInput.className='inputMatrix';
     container.appendChild(matrixInput);
 
-    matrixInput.style.gridTemplateColumns = `repeat(${2 * variablesNum + 1}, max-content)`;
+    matrixInput.style.gridTemplateColumns = ` 1fr max-content max-content`;
 
     for (let row_index = 0; row_index < restrictionsNum; row_index++) {
-        for (let column_index = 0; column_index < variablesNum; column_index++) {
-            let matrixCell = document.createElement('div');
-            matrixCell.style.width='max-content';
-            matrixCell.style.paddingRight='5px';
-
-            let matrixCellInput = document.createElement('input');
-            matrixCellInput.type = 'number';
-            matrixCellInput.step = 'any';
-            matrixCellInput.id = `row${row_index}Column${column_index}Input`;
-            matrixCellInput.placeholder='0';
-            matrixCell.appendChild(matrixCellInput);
-
-            matrixCell.innerHTML += `x${(column_index + 1)}`;
-            matrixInput.appendChild(matrixCell);
-
-            if (column_index < variablesNum - 1) {
-                let operatorCell = document.createElement('div');
-                operatorCell.innerHTML = '+';
-                matrixInput.appendChild(operatorCell);
-            }
-        }
+        matrixInput.appendChild(await createEquationInput(`matrix${row_index}Equation`))
         let operatorCell = document.createElement('div');
         let selectOperatorList = document.createElement('select');
         selectOperatorList.id = `row${row_index}Select`;
