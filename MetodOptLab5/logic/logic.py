@@ -66,6 +66,7 @@ def zeutendijk_method(n, function, functions_array, epsilon, lambdaValue):
     i = 0
     n = X_list[0].size
 
+    delta = lambdaValue
     while True:
         current=X_list[i]
         active_set=find_active_set(functions_array(current), epsilon)
@@ -115,10 +116,10 @@ def zeutendijk_method(n, function, functions_array, epsilon, lambdaValue):
                 break
             lambda_max -= 1e-5
 
-        lambda_ans = goldenSectionSearch(lambda x : function(X_list[i]+x*d), 0, lambda_max, 1e-5)
-        print('Delta: ', lambda_ans)
+        delta = goldenSectionSearch(lambda x : function(X_list[i]+x*d), 0, delta, 1e-5)
+        print('Delta: ', delta)
 
-        X_list=np.concatenate((X_list, np.resize(current+lambda_ans*d, (1, n))), axis=0)
+        X_list=np.concatenate((X_list, np.resize(current+delta*d, (1, n))), axis=0)
         i+=1
         print("i: " + str(i))
     return copy.deepcopy(X_list), i
