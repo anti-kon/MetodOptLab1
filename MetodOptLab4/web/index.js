@@ -380,7 +380,7 @@ async function toMathMl(expression) {
 				await toMathMl(expression.Binary.right).then(e => str = str +  e)
 			str += `</mrow>`
 		}
-	} else if (expression.Unary) {
+	}else if (expression.Unary) {
 		str += `<mo>`
 		str = str + expression.Unary.operator
 		str += `</mo>`
