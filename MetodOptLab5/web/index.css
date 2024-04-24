@@ -94,9 +94,6 @@ html {
     border-radius: 10px;
     color: #faeacd;
     font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .calculator-body {
@@ -133,6 +130,14 @@ html {
     border: none;
 }
 
+.calculator-buttons:hover {
+    background: #c49770;
+}
+
+.calculator-buttons:active {
+    background: #7a5d43;
+}
+
 .inputMatrix input[type=number] {
     width: 40px;
     margin: 5px;
@@ -158,6 +163,8 @@ html {
 
 
 .blockDesign {
+    margin: 5px;
+    height: min-content;
     outline: none;
     color: #DAA06D;
     border: 2px dashed #DAA06D;
@@ -337,6 +344,7 @@ html {
 }
 
 .equation-input {
+    margin: 5px;
     border: solid 2px #DAA06D;
     border-radius: 5px;
     text-align: center;
@@ -344,7 +352,84 @@ html {
     font-family: "Oswald", sans-serif;
     font-weight: 500;
     font-size: 24px;
-    margin-bottom: 5px;
+    width: auto;
+    max-width: 100%;
+}
+
+.row {
+    width: auto;
+    max-width: 100%;
+    display: grid;
+    font-size: 24px;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    grid-template-columns: repeat(2, max-content);
+    line-height: 18px;
+    justify-content: center;
+    align-items: center;
+    grid-column-gap: 10px;
     margin-top: 5px;
+    height: max-content;
+}
+
+.row input {
+    width: 100px;
+    border: solid 2px #DAA06D;
+    border-radius: 5px;
+    text-align: center;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.row input::-webkit-outer-spin-button,
+.row input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.row input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.row label{
+    text-align: center;
     width: 100%;
+}
+
+select[disabled] {
+    border: none;
+    background: none;
+    color: #000000;
+    font-family: "Oswald", sans-serif;
+    font-weight: 800;
+    -webkit-appearance: none;
+    margin: 0;
+    padding: 0;
+    width: min-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+.pathMatrix {
+    width: max-content;
+    margin-left: 20px;
+    border: solid #3b3b3b 2px;
+    color: #3b3b3b;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+}
+
+.pathMatrix div {
+    border: solid #3b3b3b 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
 }

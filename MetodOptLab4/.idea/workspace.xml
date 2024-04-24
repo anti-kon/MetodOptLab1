@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9e9643b-d4f1-4cb5-8bd1-ba702760e92e" name="Changes" comment="Metod 4">
-      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/.idea/MetodOptLab5.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/.idea/web.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MetodOptLab5/web/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MetodOptLab1/web/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../MetodOptLab1/web/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MetodOptLab1/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../MetodOptLab1/web/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MetodOptLab1/web/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MetodOptLab1/web/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MetodOptLab5/web/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../MetodOptLab5/web/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MetodOptLab5/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../MetodOptLab5/web/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MetodOptLab5/web/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MetodOptLab5/web/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +160,7 @@
       <workItem from="1712676873640" duration="54412000" />
       <workItem from="1713693880264" duration="1867000" />
       <workItem from="1713800451745" duration="305000" />
-      <workItem from="1713871563968" duration="6499000" />
+      <workItem from="1713871563968" duration="18889000" />
     </task>
     <task id="LOCAL-00001" summary="Metod 4">
       <option name="closed" value="true" />

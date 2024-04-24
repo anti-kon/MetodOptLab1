@@ -28,26 +28,6 @@
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML"></script>
 </head>
 <body>
-    <math>
-        <mo style="grid-row: 1 / 6; min-height: 100%">{</mo>
-        <mtable>
-            <mrow style="margin-bottom: 4px; margin-top: 4px">
-                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
-            </mrow>
-            <mrow style="margin-bottom: 4px; margin-top: 4px">
-                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
-            </mrow>
-            <mrow style="margin-bottom: 4px; margin-top: 4px">
-                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
-            </mrow>
-            <mrow style="margin-bottom: 4px; margin-top: 4px">
-                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
-            </mrow>
-            <mrow style="margin-bottom: 4px; margin-top: 4px">
-                <mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>0</mi>
-            </mrow>
-        </mtable>
-    </math>
     <div class="calculator">
         <div class="headBlock">
             <div class="blockDesign">
@@ -64,21 +44,82 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <label for="file_input" class="mainButton">Загрузить из файла</label>
-                <input type="file" id="file_input" name="input_file" accept="text/plain" onchange="handleFileLoad()"/>
-                <p class="content"></p>
-            </div>
+<!--            <div>-->
+<!--                <label for="file_input" class="mainButton">Загрузить из файла</label>-->
+<!--                <input type="file" id="file_input" name="input_file" accept="text/plain" onchange="handleFileLoad()"/>-->
+<!--                <p class="content"></p>-->
+<!--            </div>-->
         </div>
         <div id="calculator_body" class="calculator-body" hidden>
-            <div id="inputField" style="width: max-content; margin: auto"></div>
-            <button class="calculator-buttons">Вычислить методом возможных направлений Зойтендейка</button>
+            <div id="inputField" style="width: max-content; margin: auto">
+                <div id="equation_showcase" class="equation-showcase">
+                    <math style="margin-bottom: 10px">
+                        <mrow>
+                            <msub>
+                            <mi>F</mi>
+                            <mi>min</mi>
+                            </msub>
+                            <mo>(</mo>
+                            <mrow>
+                                <msub>
+                                <mi>x</mi>
+                                <mn>1</mn>
+                                </msub>
+                                <mo id="args_first_dot">,</mo>
+                                <mo id="args_rest">...</mo>
+                                <mo id="args_rest_dot">,</mo>
+                                <msub id="last_arg">
+                                <mi>x</mi>
+                                <mn id="last_num">i</mn>
+                                </msub>
+                            </mrow>
+                            <mo>)</mo>
+                            <mo>=</mo>
+                            <mrow id="functionShowcase"></mrow>
+                        </mrow>
+                    </math>
+                    <br/>
+                    <math>
+                        <mo id="figure-bracket" style="grid-row: 1 / 6; min-height: 100%">{</mo>
+                        <mtable id="systemShowcase"></mtable>
+                    </math>
+                </div>
+                <div id="bottomInputField" style="width: max-content; margin: auto"></div>
+            </div>
+            <div class="row">
+                <label for="lambda">
+                    <math><mi>λ</mi></math>
+                </label>
+                <label for="epsilon">
+                    <math><mi>ε</mi></math>
+                </label>
+                <input type="number" id="lambda" name="lambda" placeholder="1"/>
+                <input type="number" id="epsilon" name="epsilon" placeholder="0.001"/>
+            </div>
+            <button class="calculator-buttons" onclick="getZeutendijkMethodPossibleDirectionsResult()">
+                Вычислить методом возможных направлений Зойтендейка
+            </button>
         </div>
+        <div id="loader" class="loader">
+            <div class="dot-spinner">
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+                <div class="dot-spinner__dot"></div>
+            </div>
+        </div>
+        <pre id="syntax" class="skip"></pre>
         <div id="output"></div>
     </div>
 </body>
 
 <script type="text/javascript" src="/eel.js"></script>
+<script src="TapDigit.js" type="text/javascript" charset="utf-8"></script>
+<script src="ParserTest.js" type="text/javascript" charset="utf-8"></script>
 <script src="index.js"></script>
 
 </html>
