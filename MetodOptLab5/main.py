@@ -63,16 +63,16 @@ def string_to_function_array(expression_array):
 
 @eel.expose
 def get_zeutendijk_method_possible_directions_result(function_equation, restrictions, signRestrictions,
-                                                     lambdaValue, epsilon):
+                                                     lambdaValue, epsilon, n):
     print(lambdaValue, epsilon)
     func = string_to_function(function_equation)
     restrictions_equations = []
     for restriction in restrictions:
         restrictions_equations.append(restriction['equation'] + " - " + str(restriction['value']))
-    for sign_restriction in signRestrictions:
-        restrictions_equations.append('-' + sign_restriction['equation'])
+    # for sign_restriction in signRestrictions:
+    #     restrictions_equations.append('-' + sign_restriction['equation'])
     arr = string_to_function_array(restrictions_equations)
-    history, iteration = zeutendijk_method(len(signRestrictions), func, arr, epsilon, lambdaValue)
+    history, iteration = zeutendijk_method(n, func, arr, epsilon, lambdaValue)
     result = []
     result.append([])
     for i in range(0, len(history)):

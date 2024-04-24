@@ -15,15 +15,15 @@ async function getZeutendijkMethodPossibleDirectionsResult() {
                    document.getElementById(`row${restrictionIndex}RightInput`).value
 		};
 	}
-	const signRestrictions = new Array(variablesNum);
-	for (let signRestrictionIndex = 0; signRestrictionIndex < variablesNum; signRestrictionIndex++) {
-		signRestrictions[signRestrictionIndex] = {
-			equation: document.getElementById(`x${signRestrictionIndex + 1}Name`).value,
-			sign: document.getElementById(`variable${signRestrictionIndex}Select`).value,
-			value: document.getElementById(`variable${signRestrictionIndex}SignValue`).value === '' ? 0 :
-                   document.getElementById(`variable${signRestrictionIndex}SignValue`).value
-		};
-	}
+	// const signRestrictions = new Array(variablesNum);
+	// for (let signRestrictionIndex = 0; signRestrictionIndex < variablesNum; signRestrictionIndex++) {
+	// 	signRestrictions[signRestrictionIndex] = {
+	// 		equation: document.getElementById(`x${signRestrictionIndex + 1}Name`).value,
+	// 		sign: document.getElementById(`variable${signRestrictionIndex}Select`).value,
+	// 		value: document.getElementById(`variable${signRestrictionIndex}SignValue`).value === '' ? 0 :
+    //                document.getElementById(`variable${signRestrictionIndex}SignValue`).value
+	// 	};
+	// }
 	let lambdaValue = document.getElementById('lambda').value === '' ? (1) :
 		parseFloat(document.getElementById('lambda').value);
 	let epsilon = document.getElementById('epsilon').value === '' ? (0.001) :
@@ -46,7 +46,7 @@ async function getZeutendijkMethodPossibleDirectionsResult() {
 	let calculations;
 	try {
 		calculations = await eel.get_zeutendijk_method_possible_directions_result(
-			functionEquation, restrictions, signRestrictions, lambdaValue, epsilon
+			functionEquation, restrictions, /*signRestrictions*/[], lambdaValue, epsilon, variablesNum
 		)();
 		document.getElementById("loader").style.display='none';
 	} catch (e) {
@@ -278,61 +278,61 @@ async function addRelationshipsMatrix() {
 			`row${row_index}RightInput`);
 		console.log(document.getElementById(`matrix${row_index}Showcase`));
     }
-
-    let signInput = document.createElement('div');
-    signInput.className='inputMatrix';
-    signInput.style.gridTemplateColumns = `repeat(${variablesNum}, max-content)`;
-    signInput.style.gap='25px';
-    signInput.style.marginTop="10px";
-    container.appendChild(signInput);
-
-    for (let variable_index = 0; variable_index < variablesNum; variable_index++) {
-        let signVariableContainer = document.createElement('div');
-
-        let variableName = document.createElement('span');
-		variableName.id = `x${variable_index + 1}Name`;
-		variableName.value = `x${variable_index + 1}`;
-        variableName.innerHTML=`x${variable_index + 1}`;
-        signVariableContainer.appendChild(variableName);
-
-        let operatorCell = document.createElement('div');
-        let selectOperatorList = document.createElement('select');
-		await convertStringToMath(
-            `<mrow id="variable${variable_index}SignShowcase" style="margin-bottom: 10px; margin-top: 10px"></mrow>`).
-            then(s => {systemShowcase.innerHTML += s;});
-        selectOperatorList.id = `variable${variable_index}Select`;
-		selectOperatorList.disabled = true;
-		selectOperatorList.style.margin = '5px';
-		selectOperatorList.addEventListener("change", () => {
-        	parse(`x${variable_index + 1}Name`,
-				`variable${variable_index}SignShowcase`,
-				true,
-				`variable${variable_index}Select`,
-				`variable${variable_index}SignValue`);
-    	});
-        const operatorArray = ["≥"/*, "=", "≤"*/];
-        for (let operatorIndex = 0; operatorIndex < operatorArray.length; operatorIndex++) {
-            let option = document.createElement('option');
-            option.value = operatorArray[operatorIndex];
-            option.text = operatorArray[operatorIndex];
-            selectOperatorList.appendChild(option);
-        }
-        operatorCell.appendChild(selectOperatorList);
-        signVariableContainer.appendChild(operatorCell);
-
-        let variableValue = document.createElement('span');
-		variableValue.id=`variable${variable_index}SignValue`;
-		variableValue.value=0;
-        variableValue.innerHTML='0';
-        signVariableContainer.appendChild(variableValue);
-
-		parse(`x${variable_index + 1}Name`,
-				`variable${variable_index}SignShowcase`,
-				true,
-				`variable${variable_index}Select`,
-				`variable${variable_index}SignValue`);
-        signInput.appendChild(signVariableContainer);
-    }
+	//
+    // let signInput = document.createElement('div');
+    // signInput.className='inputMatrix';
+    // signInput.style.gridTemplateColumns = `repeat(${variablesNum}, max-content)`;
+    // signInput.style.gap='25px';
+    // signInput.style.marginTop="10px";
+    // container.appendChild(signInput);
+	//
+    // for (let variable_index = 0; variable_index < variablesNum; variable_index++) {
+    //     let signVariableContainer = document.createElement('div');
+	//
+    //     let variableName = document.createElement('span');
+	// 	variableName.id = `x${variable_index + 1}Name`;
+	// 	variableName.value = `x${variable_index + 1}`;
+    //     variableName.innerHTML=`x${variable_index + 1}`;
+    //     signVariableContainer.appendChild(variableName);
+	//
+    //     let operatorCell = document.createElement('div');
+    //     let selectOperatorList = document.createElement('select');
+	// 	await convertStringToMath(
+    //         `<mrow id="variable${variable_index}SignShowcase" style="margin-bottom: 10px; margin-top: 10px"></mrow>`).
+    //         then(s => {systemShowcase.innerHTML += s;});
+    //     selectOperatorList.id = `variable${variable_index}Select`;
+	// 	selectOperatorList.disabled = true;
+	// 	selectOperatorList.style.margin = '5px';
+	// 	selectOperatorList.addEventListener("change", () => {
+    //     	parse(`x${variable_index + 1}Name`,
+	// 			`variable${variable_index}SignShowcase`,
+	// 			true,
+	// 			`variable${variable_index}Select`,
+	// 			`variable${variable_index}SignValue`);
+    // 	});
+    //     const operatorArray = ["≥"/*, "=", "≤"*/];
+    //     for (let operatorIndex = 0; operatorIndex < operatorArray.length; operatorIndex++) {
+    //         let option = document.createElement('option');
+    //         option.value = operatorArray[operatorIndex];
+    //         option.text = operatorArray[operatorIndex];
+    //         selectOperatorList.appendChild(option);
+    //     }
+    //     operatorCell.appendChild(selectOperatorList);
+    //     signVariableContainer.appendChild(operatorCell);
+	//
+    //     let variableValue = document.createElement('span');
+	// 	variableValue.id=`variable${variable_index}SignValue`;
+	// 	variableValue.value=0;
+    //     variableValue.innerHTML='0';
+    //     signVariableContainer.appendChild(variableValue);
+	//
+	// 	parse(`x${variable_index + 1}Name`,
+	// 			`variable${variable_index}SignShowcase`,
+	// 			true,
+	// 			`variable${variable_index}Select`,
+	// 			`variable${variable_index}SignValue`);
+    //     signInput.appendChild(signVariableContainer);
+    // }
 }
 
 async function toMathMl(expression) {

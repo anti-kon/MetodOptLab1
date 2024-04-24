@@ -2,6 +2,8 @@ import copy
 import itertools
 import math
 import numpy as np
+import simplex as logic
+
 
 
 # def get_standard_form(local_matrix_equality, local_matrix_more, local_matrix_less, local_x_limits,

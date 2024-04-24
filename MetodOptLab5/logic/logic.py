@@ -60,7 +60,7 @@ def grad_g(X, functions_array, epsilon):
 
 def zeutendijk_method(n, function, functions_array, epsilon, lambdaValue):
     X_list = np.zeros((1, n))
-    X0 = np.array((0, 4, 1))
+    X0 = np.array((0, 0, 0))
     X_list[0] = X0
     z = function(X0)
     i = 0
