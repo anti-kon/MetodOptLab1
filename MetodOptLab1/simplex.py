@@ -44,9 +44,10 @@ def solve(M, n):
         # print(M, piv_row, piv_col)
 
     # all b_i s are positive
-    #print('bi done')
+    print('bi done')
 
     j = 0
+    iterations = 0
     while True:
         flag = True
         for jj in range(j, M.shape[1]-1):
@@ -77,6 +78,8 @@ def solve(M, n):
         PIV.append((piv_row, piv_col))
         M = pivot(M, piv_row, piv_col)
         # print(M, piv_row, piv_col)
+        iterations += 1
+        print(M)
 
     for (i, j) in PIV[::-1]:
         tmp = M[i, -1]
@@ -89,7 +92,7 @@ def solve(M, n):
     V = M[-1, -1]
 
     print('simplex end')
-    return X,Y,V 
+    return X, Y, V, iterations
 
 def pivot(M, piv_row, piv_col):
 

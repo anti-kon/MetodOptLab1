@@ -68,8 +68,6 @@ def zeutendijk_method(n, function, functions_array, epsilon, lambdaValue):
 
     while True:
         current=X_list[i]
-        print('X:', current)
-        print('g_i:', functions_array(current))
         active_set=find_active_set(functions_array(current), epsilon)
         f_grad=grad_f(current, function, epsilon)
         g_grad=grad_g(current, functions_array, epsilon)
@@ -103,27 +101,22 @@ def zeutendijk_method(n, function, functions_array, epsilon, lambdaValue):
         x, y, z = simplex.solve(A, n)
         d = y[0:n] - y[n:2*n]
 
-        print('X:', X_list[-1])
-        print('active_set', active_set)
-        print(A)
+        print('X: ', X_list[-1])
+        print('Function value: ', function(X_list[-1]))
+        print('Theta: ', z)
 
-        print('d', d, 'z', z)
         if (abs(z) <= epsilon):
             break
 
-        print("lambda")
         lambda_max = lambdaValue
         while(lambda_max >= 0):
             temp=functions_array(current+lambda_max*d)
             if (np.sum(temp>0)==0):
                 break
             lambda_max -= 1e-5
-        print('lambda_max', lambda_max)
 
         lambda_ans = goldenSectionSearch(lambda x : function(X_list[i]+x*d), 0, lambda_max, 1e-5)
-        print('lambda_ans', lambda_ans)
-        print("lambda_end")
-
+        print('Delta: ', lambda_ans)
 
         X_list=np.concatenate((X_list, np.resize(current+lambda_ans*d, (1, n))), axis=0)
         i+=1

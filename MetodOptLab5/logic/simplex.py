@@ -2,7 +2,6 @@ import numpy as np
 import math
 
 def solve(M, n):
-    print('simplex begin')
     # print(M)
     i = 0
     PIV = []
@@ -89,8 +88,7 @@ def solve(M, n):
     
     V = M[-1, -1]
 
-    print('simplex end')
-    return X,Y,V 
+    return X,Y,V
 
 def pivot(M, piv_row, piv_col):
 

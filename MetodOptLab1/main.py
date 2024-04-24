@@ -2,7 +2,7 @@ import copy
 import itertools
 import math
 import numpy as np
-import simplex as logic
+import simplex
 
 
 
@@ -713,35 +713,49 @@ is_min = True
 
 
 if __name__ == '__main__':
-    matrix, basis, function, matrix_equality, matrix_more, matrix_less = get_canonical_form(
-        copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(C), copy.deepcopy(xLimits), copy.deepcopy(F), is_min)
-    matrix, basis, function, used_columns = get_basis_form(matrix, basis, function)
-    print(np.array(matrix), basis, function)
-    print(simplex_method(matrix, basis, function, copy.deepcopy(xLimits), used_columns, is_min))
-    matrix, basis, function, matrix_equality, matrix_more, matrix_less = get_canonical_form(
-        copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(C), copy.deepcopy(xLimits), copy.deepcopy(F), is_min)
-    matrix, basis, function, used_columns = get_basis_form(matrix, basis, function)
-    print(brute_force(matrix, basis, function, copy.deepcopy(xLimits), matrix_equality, matrix_more, matrix_less))
+    print(simplex.solve(np.array([np.array([-23, 3, 1, -2, -3, -5, 17]),
+                                  np.array([-18, 3, 1, -3, -3, -4, 12]),
+                                  np.array([-13, 3, 1, -3, -3, -3, 13]),
+                                  np.array([-8, 3, 1, -2, -2, -2, 23]),
+                                  np.array([8, -3, -1, 2, 2, 2, -23]),
+                                  np.array([-4, 2, 1, -1, -1, -1, 20]),
+                                  np.array([4, -2, -1, 1, 1, 1, -20]),
+                                  np.array([-4, 2, 2, -1, -1, -1, 29]),
+                                  np.array([4, -2, -2, 1, 1, 1, -29]),
+                                  np.array([4, 6, 2, 6, 5, 3, 0])]),
+                        6))
 
-    double_matrix_equality, double_matrix_more, double_matrix_less, double_x_limits, double_function, is_double_min = (
-        get_double_task(copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(C),
-                        copy.deepcopy(xLimits), copy.deepcopy(F), is_min))
-    print(double_matrix_equality, double_matrix_more, double_matrix_less, double_x_limits, double_function,
-          is_double_min)
-    matrix, basis, function, matrix_equality, matrix_more, matrix_less = get_canonical_form(
-        copy.deepcopy(double_matrix_equality), copy.deepcopy(double_matrix_more), copy.deepcopy(double_matrix_less),
-        copy.deepcopy(double_x_limits), copy.deepcopy(double_function), is_double_min)
-    print(np.array(matrix), basis, function)
-    matrix, basis, function, used_columns = get_basis_form(matrix, basis, function)
-    print(np.array(matrix), basis, function)
-    print(simplex_method(matrix, basis, function, copy.deepcopy(double_x_limits), used_columns, is_double_min))
-    matrix, basis, function, matrix_equality, matrix_more, matrix_less = get_canonical_form(
-        copy.deepcopy(double_matrix_equality), copy.deepcopy(double_matrix_more), copy.deepcopy(double_matrix_less),
-        copy.deepcopy(double_x_limits), copy.deepcopy(double_function), is_double_min)
-    matrix, basis, function, used_columns = get_basis_form(matrix, basis, function)
-    print("!")
-    print(brute_force(matrix, basis, function, copy.deepcopy(double_x_limits), matrix_equality, matrix_more,
-                      matrix_less))
+
+
+    # matrix, basis, function, matrix_equality, matrix_more, matrix_less = get_canonical_form(
+    #     copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(C), copy.deepcopy(xLimits), copy.deepcopy(F), is_min)
+    # matrix, basis, function, used_columns = get_basis_form(matrix, basis, function)
+    # print(np.array(matrix), basis, function)
+    # print(simplex_method(matrix, basis, function, copy.deepcopy(xLimits), used_columns, is_min))
+    # matrix, basis, function, matrix_equality, matrix_more, matrix_less = get_canonical_form(
+    #     copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(C), copy.deepcopy(xLimits), copy.deepcopy(F), is_min)
+    # matrix, basis, function, used_columns = get_basis_form(matrix, basis, function)
+    # print(brute_force(matrix, basis, function, copy.deepcopy(xLimits), matrix_equality, matrix_more, matrix_less))
+    #
+    # double_matrix_equality, double_matrix_more, double_matrix_less, double_x_limits, double_function, is_double_min = (
+    #     get_double_task(copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(C),
+    #                     copy.deepcopy(xLimits), copy.deepcopy(F), is_min))
+    # print(double_matrix_equality, double_matrix_more, double_matrix_less, double_x_limits, double_function,
+    #       is_double_min)
+    # matrix, basis, function, matrix_equality, matrix_more, matrix_less = get_canonical_form(
+    #     copy.deepcopy(double_matrix_equality), copy.deepcopy(double_matrix_more), copy.deepcopy(double_matrix_less),
+    #     copy.deepcopy(double_x_limits), copy.deepcopy(double_function), is_double_min)
+    # print(np.array(matrix), basis, function)
+    # matrix, basis, function, used_columns = get_basis_form(matrix, basis, function)
+    # print(np.array(matrix), basis, function)
+    # print(simplex_method(matrix, basis, function, copy.deepcopy(double_x_limits), used_columns, is_double_min))
+    # matrix, basis, function, matrix_equality, matrix_more, matrix_less = get_canonical_form(
+    #     copy.deepcopy(double_matrix_equality), copy.deepcopy(double_matrix_more), copy.deepcopy(double_matrix_less),
+    #     copy.deepcopy(double_x_limits), copy.deepcopy(double_function), is_double_min)
+    # matrix, basis, function, used_columns = get_basis_form(matrix, basis, function)
+    # print("!")
+    # print(brute_force(matrix, basis, function, copy.deepcopy(double_x_limits), matrix_equality, matrix_more,
+    #                   matrix_less))
     #
     # i11 = [3]
     # i12 = [2]
