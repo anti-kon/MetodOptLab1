@@ -1,4 +1,6 @@
+import copy
 import math
+import time
 
 import networkx as nx
 import numpy as np
@@ -8,8 +10,9 @@ from random import random
 from functools import lru_cache
 from typing import Dict, List, Optional, Tuple
 
+from numba import jit
 
-VERTICES_NUM = 10
+VERTICES_NUM = 20
 WEIGHT_LIMIT = 10
 RATING_LIMIT = 10
 EDGE_PROBABILITY = 1.0
@@ -24,7 +27,6 @@ def draw_graph_with_path(adjacency_matrix, path):
     for i in range(len(adjacency_matrix)):
         for j in range(len(adjacency_matrix)):
             real_matrix[i][j] = adjacency_matrix[i][j][0]
-    print(real_matrix)
 
     G = nx.from_numpy_array(real_matrix, create_using=nx.MultiDiGraph())
 
@@ -41,7 +43,7 @@ def draw_graph_with_path(adjacency_matrix, path):
 
     pos = nx.shell_layout(G)  # positions for all nodes - seed for reproducibility
 
-    connectionstyle = [f"arc3,rad={r}" for r in it.accumulate([0.09] * 4)]
+    connectionstyle = [f"arc3,rad={r}" for r in it.accumulate([0.01] * 4)]
 
     nx.draw_networkx_nodes(G, pos, nodelist=G.nodes(), node_color=nodecol)
     nx.draw_networkx_labels(G, pos, font_color="w")
@@ -118,7 +120,7 @@ def ant_colony_optimization(adjacency_matrix, n_ants, n_iterations, alpha, beta,
             paths.append(path)
             path_lengths.append(path_length)
 
-            if path_length < best_path_length and rating < 100:
+            if path_length < best_path_length and rating < 1000:
                 best_path = path
                 best_path_length = path_length
 
@@ -133,14 +135,14 @@ def ant_colony_optimization(adjacency_matrix, n_ants, n_iterations, alpha, beta,
 
 
 def solve_tsp_dynamic_programming(
-    distance_matrix: np.ndarray,
-    maxsize: Optional[int] = None,
+        distance_matrix: np.ndarray,
+        maxsize: Optional[int] = None,
 ) -> Tuple[List, float]:
     N = frozenset(range(1, distance_matrix.shape[0]))
     memo: Dict[Tuple, int] = {}
 
     @lru_cache(maxsize=maxsize)
-    def dist(ni: int, N: frozenset) -> [float,float]:
+    def dist(ni: int, N: frozenset) -> [float, float]:
         if not N:
             return distance_matrix[ni, 0]
 
@@ -181,18 +183,51 @@ def solve_tsp_dynamic_programming(
     return solution, best_distance
 
 
-adjacency_matrix = generate_graph_matrix(10, WEIGHT_LIMIT, RATING_LIMIT, EDGE_PROBABILITY)
-for i in range(0, len(adjacency_matrix)):
-    for j in range(0, len(adjacency_matrix)):
-        print(adjacency_matrix[i][j][1], end=' ')
-    print()
+# for i in range(0, len(adjacency_matrix)):
+#     for j in range(0, len(adjacency_matrix)):
+#         print(adjacency_matrix[i][j][1], end=' ')
+#     print()
+time_history = [[], []]
+node_num = 2
+while node_num < 21:
+    try:
+        history = [[], []]
+        iteration = 0
+        while iteration < 20:
+            try:
+                print(node_num, iteration)
+                adjacency_matrix = generate_graph_matrix(node_num, WEIGHT_LIMIT, RATING_LIMIT, EDGE_PROBABILITY)
 
-path, total_cost = ant_colony_optimization(adjacency_matrix, n_ants=10, n_iterations=100, alpha=1, beta=1,
-                                           evaporation_rate=0.5, Q=1)
-total_cost += adjacency_matrix[path[-1]][path[0]][0]
-path = path + [path[0]]
+                ant_start = time.time()
+                path, total_cost = ant_colony_optimization(adjacency_matrix, n_ants=10, n_iterations=100, alpha=1,
+                                                           beta=1,
+                                                           evaporation_rate=0.5, Q=1)
+                ant_finish = time.time()
+                total_cost += adjacency_matrix[path[-1]][path[0]][0]
+                path = path + [path[0]]
 
-draw_graph_with_path(adjacency_matrix, path)
-print(path, total_cost)
-path, total_cost = solve_tsp_dynamic_programming(adjacency_matrix)
-print(path, total_cost)
+                tsp_start = time.time()
+                path, total_cost = solve_tsp_dynamic_programming(adjacency_matrix)
+                tsp_finish = time.time()
+                history[0].append((ant_finish - ant_start) * 1000)
+                history[1].append((tsp_finish - tsp_start) * 1000)
+                iteration += 1
+            except:
+                continue
+        print(node_num)
+        print(np.array(history))
+        print(sum(history[0]) / len(history[0]))
+        time_history[0].append(sum(history[0]) / len(history[0]))
+        time_history[1].append(sum(history[1]) / len(history[1]))
+        node_num += 1
+    except:
+        print("!")
+        continue
+print(time_history)
+plt.clf()
+plt.grid(True)
+x = range(2, len(time_history[0]) + 2)
+plt.plot(x, time_history[0], label='ant')
+plt.plot(x, time_history[1], label='dynamic')
+plt.legend()
+plt.show()
